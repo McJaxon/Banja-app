@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "256955403295",
+    "project_id": "banja22",
+    "storage_bucket": "banja22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256955403295:android:bab21014ea022671cb992a",
+        "android_client_info": {
+          "package_name": "com.zaren.tuula"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256955403295-hks4ame3v9a02jg1cvseemv6mfr2ilqf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zaren.tuula",
+            "certificate_hash": "4c318126f94effa85dbd23d1538242c101f01ba7"
+          }
+        },
+        {
+          "client_id": "256955403295-jmj784uii7588lhb9qn6v13rthssp57j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zaren.tuula",
+            "certificate_hash": "2144d4d7e2618dea0f9b01b9b5c3d1df9c2a310d"
+          }
+        },
+        {
+          "client_id": "256955403295-ddrn2b7gi0nu1rhl4tnr2j0b2hmf3asl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA21jcSid25OKYcSKsAOe4lB9RYv-CMxG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256955403295-ddrn2b7gi0nu1rhl4tnr2j0b2hmf3asl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "256955403295-kpai3ib66j017qoq7pfht3ud29bphunq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zaren.tuula"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
