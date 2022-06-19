@@ -4,11 +4,11 @@ import 'package:banja/controllers/authControllers.dart';
 import 'package:banja/controllers/userDetailsController.dart';
 import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../widgets/headers.dart';
+import '/shared/shared.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -19,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with TickerProviderStateMixin {
+  bool userHasProfile = GetStorage().read('userHasProfileAlready') ?? false;
   final UserDetailsController userDetails = Get.find();
   var authController = Get.put(AuthController());
   late AnimationController _controller;
@@ -27,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage>
   void initState() {
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 740));
-    bool userHasProfile = GetStorage().read('userHasProfileAlready') ?? false;
+
     if (!userHasProfile) {
       Timer.run(() {
         // ignore: void_checks
@@ -62,12 +63,31 @@ class _ProfilePageState extends State<ProfilePage>
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 25.w),
             children: [
-              Text(
-                'User Details',
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20.sp),
+              Row(
+                children: [
+                  Text(
+                    'User Details',
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20.sp),
+                  ),
+                  const Spacer(),
+                  !userHasProfile
+                      ? TextButton.icon(
+                          onPressed: () {
+                            userDetails.showRegPop(context, _controller);
+                          },
+                          icon: SvgPicture.asset('assets/images/Edit.svg'),
+                          label: Text(
+                            'Add Profile',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17.sp),
+                          ))
+                      : Container()
+                ],
               ),
               SizedBox(height: 10.h),
               Container(
@@ -185,6 +205,37 @@ class _ProfilePageState extends State<ProfilePage>
                                   fontSize: 16.sp),
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Account Status',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp),
+                            ),
+                            const Spacer(),
+                            Container(
+                              width: 20.w,
+                              height: 20.w,
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.green),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Text(
+                              'Active',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16.sp),
+                            ),
+                          ],
                         )
                       ],
                     ),
@@ -242,7 +293,7 @@ class _ProfilePageState extends State<ProfilePage>
                             ),
                             const Spacer(),
                             Text(
-                              'v.5.3',
+                              'v.2.0',
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w400,
@@ -269,6 +320,30 @@ class _ProfilePageState extends State<ProfilePage>
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
                       'Lean more about Tuula',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.sp,
+                          fontFamily: 'Poppins'),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              BouncingWidget(
+                onPressed: () {
+                  authController.showPolicyDialog(context);
+                },
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.blueGrey.shade200,
+                      borderRadius: BorderRadius.circular(40.r)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Lean more our Privacy Policy',
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16.sp,

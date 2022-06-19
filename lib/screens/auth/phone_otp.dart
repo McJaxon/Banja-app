@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:banja/controllers/authControllers.dart';
 import 'package:banja/screens/dashboard.dart';
-import 'package:banja/widgets/headers.dart';
-import 'package:banja/widgets/text_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import '../../utils/customOverlay.dart';
+import '../../shared/shared.dart';
 
 class PhoneOTP extends StatefulWidget {
   const PhoneOTP({Key? key, this.verificationId, this.tempPhone})

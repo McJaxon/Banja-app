@@ -198,7 +198,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
                                               ),
                                               const Spacer(),
                                               Text(
-                                                widget.loanDetails.loanPeriod,
+                                                widget.loanDetails
+                                                    .loanAmounts['loan_period'],
                                                 style: TextStyle(
                                                     fontFamily: 'Poppins',
                                                     color: Colors.black,
@@ -225,7 +226,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
                                               ),
                                               const Spacer(),
                                               Text(
-                                                widget.loanDetails.paymentTime,
+                                                widget.loanDetails.loanAmounts[
+                                                    'payment_time'],
                                                 style: TextStyle(
                                                     fontFamily: 'Poppins',
                                                     color: Colors.black,
@@ -252,7 +254,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
                                               ),
                                               const Spacer(),
                                               Text(
-                                                widget.loanDetails.paymentMode,
+                                                widget.loanDetails.loanAmounts[
+                                                    'payment_mode'],
                                                 style: TextStyle(
                                                     fontFamily: 'Poppins',
                                                     color: Colors.black,

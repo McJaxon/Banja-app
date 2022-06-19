@@ -1,11 +1,12 @@
+import 'dart:async';
+
 import 'package:banja/constants/styles.dart';
 import 'package:banja/controllers/authControllers.dart';
+import 'package:banja/controllers/userDetailsController.dart';
 import 'package:banja/models/loan_application_details_model.dart';
 import 'package:banja/screens/auth/phone_otp.dart';
 import 'package:banja/services/server.dart';
 import 'package:banja/utils/form_validators.dart';
-import 'package:banja/widgets/headers.dart';
-import 'package:banja/widgets/text_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../utils/customOverlay.dart';
+import '../../shared/shared.dart';
 
 enum LoginTypes { newUser, emailPassword, phoneOnly }
 
@@ -42,6 +44,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
+       Timer.run(() {
+        // ignore: void_checks
+        return authController.showPolicyDialog(context);
+      });
     authController.nationalIDFocus.addListener(() {
       if (authController.nationalIDFocus.hasFocus) {
         authController.trigger(true);
@@ -102,37 +108,37 @@ class _RegisterPageState extends State<RegisterPage> {
           height: 30.h,
         ),
         TextBox(
-          textInputType: TextInputType.text,
+          textType: TextInputType.text,
           textCapitalization: TextCapitalization.characters,
-          validator: FieldValidator.validateNIN,
+          dataVerify: FieldValidator.validateNIN,
           maxLength: 14,
           focusNode: authController.nationalIDFocus,
-          textEditingController: authController.nationalID,
+          textController: authController.nationalID,
           title: 'Enter NIN Number',
-          hint: 'eg CM546FDF54534FHS',
+          hintText: 'eg CM546FDF54534FHS',
         ),
         SizedBox(
           height: 22.h,
         ),
         TextBox(
-          textInputType: TextInputType.text,
+          textType: TextInputType.text,
           maxLength: 6,
           focusNode: authController.referralIDFocus,
-          textEditingController: authController.referralID,
+          textController: authController.referralID,
           title: 'Referral ID',
-          hint: 'enter referral ID - optional',
+          hintText: 'enter referral ID - optional',
         ),
         SizedBox(
           height: 22.h,
         ),
         TextBox(
-          textInputType: TextInputType.phone,
+          textType: TextInputType.phone,
           maxLength: 9,
-          validator: FieldValidator.validatePhone,
+          dataVerify: FieldValidator.validatePhone,
           focusNode: authController.phoneNumberFocus,
-          textEditingController: authController.phoneNumber,
+          textController: authController.phoneNumber,
           title: 'Phone Number',
-          hint: 'enter phone',
+          hintText: 'enter phone',
         ),
         SizedBox(
           height: 300.h,
@@ -153,34 +159,34 @@ class _RegisterPageState extends State<RegisterPage> {
         LoginTypes.phoneOnly != phoneType
             ? Column(children: [
                 TextBox(
-                  textInputType: TextInputType.text,
-                  validator: FieldValidator.validateEmail,
+                  textType: TextInputType.text,
+                  dataVerify: FieldValidator.validateEmail,
                   focusNode: authController.emailFocus,
-                  textEditingController: authController.emailAddress,
+                  textController: authController.emailAddress,
                   title: 'Email Address',
-                  hint: 'type in your email address',
+                  hintText: 'type in your email address',
                 ),
                 SizedBox(
                   height: 22.h,
                 ),
                 TextBox(
-                  isPassword: true,
-                  textInputType: TextInputType.text,
-                  validator: FieldValidator.validatePassword,
+                  obscureText: true,
+                  textType: TextInputType.text,
+                  dataVerify: FieldValidator.validatePassword,
                   focusNode: authController.passwordFocus,
-                  textEditingController: authController.password,
+                  textController: authController.password,
                   title: 'Password',
-                  hint: 'type password here',
+                  hintText: 'type password here',
                 ),
               ])
             : TextBox(
-                textInputType: TextInputType.phone,
+                textType: TextInputType.phone,
                 maxLength: 9,
-                validator: FieldValidator.validatePhone,
+                dataVerify: FieldValidator.validatePhone,
                 focusNode: authController.phoneNumberFocus,
-                textEditingController: authController.phoneNumber,
+                textController: authController.phoneNumber,
                 title: 'Phone Number',
-                hint: 'enter phone',
+                hintText: 'enter phone',
               ),
         SizedBox(height: 45.h),
         Row(

@@ -9,79 +9,76 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 
 class LoanApplicationModel {
-  LoanApplicationModel(
-      {required this.approvedStatus,
-      required this.loanType,
-      required this.loanID,
-      required this.loanAmount,
-      required this.tenurePeriod,
-      required this.paymentFrequency,
-      required this.interestRate,
-      required this.transactionSource,
-      required this.principal,
-      required this.interest,
-      required this.outstandingBalance,
-      required this.payOffDate,
-      required this.payBack,
-      required this.isCleared,
-      required this.loanPeriod,
-      required this.paymentMode,
-      required this.paymentTime});
+  LoanApplicationModel({
+    //this.outstandingBalance,
+    //this.interest,
+    //this.payBack,
+    required this.approvedStatus,
+    required this.loanType,
+    required this.loanID,
+    required this.loanAmounts,
+    this.loanAmount,
+     this.tenurePeriod,
+     this.paymentFrequency,
+    required this.interestRate,
+    required this.transactionSource,
+    //required this.principal,
+    required this.payOffDate,
+    required this.isCleared,
+  });
 
   factory LoanApplicationModel.fromJson(Map<String, dynamic> json) {
     return LoanApplicationModel(
-      approvedStatus: json['approved_status'] == 0 ? false : true,
-      loanAmount: json['loan_amount'],
-      loanID: json['loan_id'],
-      tenurePeriod: json['tenure_period'],
-      payBack: json['pay_back'],
-      interest: json['interest'],
-      interestRate: json['interest_rate'],
-      outstandingBalance: json['outstanding_balance'],
-      isCleared: json['is_cleared'] == 0 ? false : true,
-      payOffDate: json['pay_off_date'],
-      paymentFrequency: json['payment_frequency'],
-      loanType: json['loan_type'],
-      transactionSource: json['transaction_source'],
-      principal: json['principal'],
-      loanPeriod: json['loan_period'],
-      paymentMode: json['payment_mode'],
-      paymentTime: json['payment_time'],
-    );
+        approvedStatus: json['approved_status'] == 0 ? false : true,
+        loanAmount: json['loan_amount'],
+        loanID: json['loan_id'],
+        tenurePeriod: json['tenure_period'],
+        //payBack: json['pay_back'],
+        //interest: json['interest'],
+        //outstandingBalance: json['outstanding_balance'],
+        interestRate: json['interest_rate'],
+        isCleared: json['is_cleared'] == 0 ? false : true,
+        payOffDate: json['pay_off_date'],
+        paymentFrequency: json['payment_frequency'],
+        loanType: json['loan_type'],
+        transactionSource: json['transaction_source'],
+        //principal: json['principal'],
+        // loanPeriod: json['loan_period'],
+        // paymentMode: json['payment_mode'],
+        // paymentTime: json['payment_time'],
+        loanAmounts: json['loan_amounts']);
   }
 
   final int? loanAmount,
-      interest,
       tenurePeriod,
-      payBack,
       interestRate,
-      outstandingBalance,
-      principal,
+      //principal,
       paymentFrequency;
   final DateTime payOffDate;
   final bool approvedStatus, isCleared;
   final String loanType, loanID, transactionSource;
-  String paymentMode, loanPeriod, paymentTime;
+
+  final Map loanAmounts;
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'loan_type': loanType,
       'loan_id': loanID,
-      'loan_amount': loanAmount,
-      'tenure_period': tenurePeriod,
-      'payment_frequency': paymentFrequency,
+      'loan_amount': loanAmounts['loan_amount'],
+      'tenure_period': loanAmounts['tenure_period'],
+      'payment_frequency': loanAmounts['payment_frequency'],
       'interest_rate': interestRate,
       'transaction_source': transactionSource,
-      'principal': principal,
-      'interest': interest,
-      'outstanding_balance': outstandingBalance,
+      'principal': loanAmounts['principal'],
+      'interest': loanAmounts['interest'],
+      'outstanding_balance': loanAmounts['total_amount'],
       'pay_off_date': payOffDate.toIso8601String(),
-      'pay_back': payBack,
+      'pay_back': loanAmounts['payback_breakdown'],
       'is_cleared': isCleared == false ? 0 : 1,
       'approved_status': approvedStatus == false ? 0 : 1,
-      'payment_mode': paymentMode,
-      'payment_time': paymentTime,
-      'loan_period': loanPeriod
+      'payment_mode': loanAmounts['payment_mode'],
+      'payment_time': loanAmounts['payment_time'],
+      'loan_period': loanAmounts['loan_period'],
     };
 
     return map

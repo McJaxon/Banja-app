@@ -1,3 +1,4 @@
+import 'package:banja/constants/strings.dart';
 import 'package:banja/constants/styles.dart';
 import 'package:banja/screens/dashboard.dart';
 import 'package:banja/utils/customOverlay.dart';
@@ -211,6 +212,81 @@ class AuthController extends GetxController {
                       ]),
                       SizedBox(
                         height: 70.h,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  showPolicyDialog(BuildContext context) {
+    HapticFeedback.lightImpact();
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: const Color(0xffE5F2F2),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.95,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20.w),
+                  child: Column(
+                    children: [
+                      Align(
+                          alignment: Alignment.topCenter,
+                          child: Image.asset(
+                            'assets/images/tuula_logo.png',
+                            width: 200.w,
+                          )),
+                      SizedBox(height: 10.h),
+                      Text('Tuula App Privacy Policy',
+                          style: companyDetailsTitleStyle)
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 140.h),
+                  child: Stack(
+                    children: [
+                      ListView(
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8.w),
+                            child: Text(privacyPolicy,
+                                style: companyDetailsBodyStyle),
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        bottom: 30.h,
+                        right: 15.w,
+                        left: 15.w,
+                        child: Row(children: [
+                          Expanded(
+                              child: SizedBox(
+                                  height: 64.h,
+                                  child: CupertinoButton(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      color: const Color.fromARGB(
+                                          255, 35, 101, 105),
+                                      child: const Text(
+                                        'Okay, I understand',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      })))
+                        ]),
                       ),
                     ],
                   ),

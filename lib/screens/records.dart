@@ -1,9 +1,9 @@
 import 'package:banja/controllers/homePageController.dart';
 import 'package:banja/services/server.dart';
-import 'package:banja/widgets/headers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '/shared/shared.dart';
 
 class RecordsPage extends StatefulWidget {
   const RecordsPage({Key? key}) : super(key: key);
@@ -51,53 +51,11 @@ class _RecordsPageState extends State<RecordsPage> {
               future: Server.fetchMyLoanRecords(),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Center(child: CircularProgressIndicator()),
-                      SizedBox(height: 14.h),
-                      Text(
-                        'Fetching data from server',
-                        style: TextStyle(
-                            fontSize: 18.sp,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ],
-                  );
+                  return const LoadingData();
                 } else if (snapshot.hasError) {
-                  return Padding(
-                    padding:
-                        EdgeInsets.only(top: 245.h, left: 25.w, right: 25.w),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Something went wrong!',
-                            style: TextStyle(
-                                fontSize: 38.sp,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ]),
-                  );
+                  return const NetworkError();
                 } else if (snapshot.data == null) {
-                  return Padding(
-                    padding:
-                        EdgeInsets.only(top: 245.h, left: 25.w, right: 25.w),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'You currently have no records here!',
-                            style: TextStyle(
-                                fontSize: 38.sp,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ]),
-                  );
+                  return const NoRecordError();
                 } else {
                   return Padding(
                     padding: EdgeInsets.only(
@@ -254,8 +212,11 @@ class _RecordsPageState extends State<RecordsPage> {
                                                       ),
                                                       Text(
                                                         snapshot.data['payload']
-                                                                [index]
-                                                            ['is_approved'] == '0' ? 'Not Approved':'Approved',
+                                                                        [index][
+                                                                    'is_approved'] ==
+                                                                '0'
+                                                            ? 'Not Approved'
+                                                            : 'Approved',
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontFamily:

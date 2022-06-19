@@ -6,8 +6,6 @@ import 'package:banja/controllers/loanDetailControllers.dart';
 import 'package:banja/controllers/notifications_controller.dart';
 import 'package:banja/controllers/userDetailsController.dart';
 import 'package:banja/screens/profile.dart';
-import 'package:banja/widgets/clippers.dart';
-import 'package:banja/widgets/side_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
@@ -17,6 +15,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '/shared/shared.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -125,7 +124,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                               width: 10.w,
                                             ),
                                             Text(
-                                              loanCategory[index]['category']!,
+                                              loanCategory[index]['category'],
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
@@ -136,10 +135,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                               onTap: () {
                                                 HapticFeedback.lightImpact();
                                                 loanDetails.requestLoan(
-                                                    context,
-                                                    loanCategory[index]
-                                                        ['category']!,
-                                                    _controller);
+                                                    context: context,
+                                                    loanCategory:
+                                                        loanCategory[index]
+                                                            ['category']!,
+                                                    loanID: loanCategory[index]
+                                                        ['loan_id']!,
+                                                    controller: _controller);
                                               },
                                               child: Text(
                                                 'Apply',
@@ -544,7 +546,7 @@ class DashTopPart extends StatelessWidget {
                                           : DateFormat.yMMMd().format(
                                               DateTime.parse(loanController
                                                       .loanDetails[index]
-                                                  ['pay_off_date'])),
+                                                  ['pay_off_date'].toString())),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           color: const Color(0xff007981),

@@ -3,12 +3,12 @@ import 'package:banja/controllers/loanDetailControllers.dart';
 import 'package:banja/controllers/payment_controllers.dart';
 import 'package:banja/controllers/userDetailsController.dart';
 import 'package:banja/services/server.dart';
-import 'package:banja/widgets/headers.dart';
 import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '/shared/shared.dart';
 
 class MakeDeposit extends StatefulWidget {
   const MakeDeposit({Key? key}) : super(key: key);
@@ -61,54 +61,12 @@ class _MakeDepositState extends State<MakeDeposit> {
               future: Server.fetchMyPaymentDetails(),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Center(child: CircularProgressIndicator()),
-                      SizedBox(height: 14.h),
-                      Text(
-                        'Fetching data from server',
-                        style: TextStyle(
-                            fontSize: 18.sp,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ],
-                  );
+                  return const LoadingData();
                 } else if (snapshot.hasError) {
-                  return Padding(
-                    padding:
-                        EdgeInsets.only(top: 245.h, left: 25.w, right: 25.w),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Something went wrong!',
-                            style: TextStyle(
-                                fontSize: 38.sp,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ]),
-                  );
+                  return const NetworkError();
                 } else if (snapshot.data == null) {
                   print(snapshot.data);
-                  return Padding(
-                    padding:
-                        EdgeInsets.only(top: 245.h, left: 25.w, right: 25.w),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'You currently have no ongoing loans to clear',
-                            style: TextStyle(
-                                fontSize: 32.sp,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600),
-                          )
-                        ]),
-                  );
+                  return const NoRecordError();
                 } else {
                   print(snapshot.data);
                   return Padding(

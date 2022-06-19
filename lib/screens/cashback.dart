@@ -1,7 +1,6 @@
 import 'package:banja/controllers/homePageController.dart';
 import 'package:banja/services/server.dart';
 import 'package:banja/utils/customOverlay.dart';
-import 'package:banja/widgets/headers.dart';
 import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:share_plus/share_plus.dart';
+import '/shared/shared.dart';
 
 class Cashback extends StatefulWidget {
   const Cashback({Key? key}) : super(key: key);
