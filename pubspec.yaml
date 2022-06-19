@@ -6,7 +6,7 @@ description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
-version: 2.0.6+6
+version: 2.0.7+7
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
@@ -22,6 +22,8 @@ dependencies:
   awesome_circular_chart: ^1.0.0
   bouncing_widget: ^2.0.0
   cupertino_icons: ^1.0.2
+  cached_network_image: ^3.2.1
+  contacts_service: ^0.6.3
   flutter_svg:
   fl_chart: ^0.40.2
   firebase_core: ^1.15.0
@@ -41,6 +43,7 @@ dependencies:
   path_provider: ^2.0.9
   share_plus: ^4.0.4
   slide_countdown: ^0.2.3
+  permission_handler: ^9.2.0
   sqflite: ^2.0.2+1
   ticketview: ^1.0.0
   url_launcher: ^6.1.2
