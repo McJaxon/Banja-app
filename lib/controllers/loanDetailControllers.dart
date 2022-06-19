@@ -14,6 +14,13 @@ import '../screens/loan_detail.dart';
 
 class LoanDetailController extends GetxController {
   var loanDetails = [].obs;
+    List<bool> transactionSourceSelected = [];
+  double loanAmount = 10000.0;
+  double interestRate = 2.75;
+  var paySchedule = 100;
+  var tenurePeriod = 0;
+  var transactionSourceType = 100;
+
   var userDetails = Get.find<UserDetailsController>();
 
   @override
@@ -28,7 +35,10 @@ class LoanDetailController extends GetxController {
         loanDetails.addAll(data);
       } else {
         Server.fetchMyLoanRecords().then((value) {
-          loanDetails.addAll(value['payload']);
+          if (value != null) {
+            GetStorage().write('hasOngoingLoan', true);
+            loanDetails.addAll(value['payload']);
+          }
         });
       }
     });
@@ -41,12 +51,15 @@ class LoanDetailController extends GetxController {
     });
   }
 
-  void requestLoan(BuildContext context, String loanCategory,
-      AnimationController controller) {
+  void requestLoan(
+      {required BuildContext context,
+      required String loanCategory,
+      required String loanID,
+      required AnimationController controller}) {
     bool userHasProfile = GetStorage().read('userHasProfileAlready') ?? false;
 
     if (userHasProfile) {
-      Get.to(() => LoanDetail(title: loanCategory));
+      Get.to(() => LoanDetail(title: loanCategory, loanID: loanID));
     } else {
       userDetails.showRegPop(context, controller);
     }
@@ -55,7 +68,7 @@ class LoanDetailController extends GetxController {
   void applyForLoan(
       BuildContext context, LoanApplicationModel loanApplicationModel) {
     HapticFeedback.lightImpact();
-    if (loanDetails.isNotEmpty) {
+    if (GetStorage().read('hasOngoingLoan') ?? false) {
       showDialog(
           context: context,
           builder: (context) {
@@ -128,9 +141,77 @@ class LoanDetailController extends GetxController {
     }
   }
 
-  int calculateAmount(var principal, var rate, var time) {
-    double result = (principal * rate * time) / 100;
+  calculateAmount(var principal, var rate, var time, var remittanceSchedule,
+      transactionPref) {
+    double interest = (principal * rate * time) / 100;
+    double amount = interest + principal;
+    double payable = (amount / time);
 
-    return result.toInt();
+    var variable = (time == 4 && remittanceSchedule == 1) ||
+            (time == 3 && remittanceSchedule == 2)
+        ? 1
+        : time == 3 && remittanceSchedule == 1
+            ? 2
+            : 3;
+
+    switch (variable) {
+      case 1:
+        return {
+          'tenure_period': time == 4 ? 1 : 2,
+          'payment_frequency': remittanceSchedule,
+          'principal': principal,
+          'loan_amount': principal,
+          'interest': interest.round(),
+          'total_amount': amount.round(),
+          'loan_period': time == 4 ? '1 Month' : '3 Months',
+          'payment_time': remittanceSchedule == 1 ? 'Weekly' : 'Monthly',
+          'payment_mode': transactionPref == 0
+              ? 'Mobile Money'
+              : transactionPref == 2
+                  ? 'Bank Transfer'
+                  : 'Cash',
+          //'total_payback': payable.round(),
+          'payback_breakdown': payable.round()
+        };
+
+      case 2:
+        return {
+          'tenure_period': time == 4 ? 1 : 2,
+          'payment_frequency': remittanceSchedule,
+          'principal': principal,
+          'loan_amount': principal,
+          'interest': interest.round(),
+          'total_amount': amount.round(),
+          'loan_period': time == 4 ? '1 Month' : '3 Months',
+          'payment_time': remittanceSchedule == 1 ? 'Weekly' : 'Monthly',
+          'payment_mode': transactionPref == 0
+              ? 'Mobile Money'
+              : transactionPref == 2
+                  ? 'Bank Transfer'
+                  : 'Cash',
+          //'payback': payable.round(),
+          'payback_breakdown': (payable / 4).round()
+        };
+      case 3:
+        return {
+          'tenure_period': time == 4 ? 1 : 2,
+          'payment_frequency': remittanceSchedule,
+          'principal': principal,
+          'loan_amount': principal,
+          'interest': interest.round(),
+          'total_amount': amount.round(),
+          'loan_period': time == 4 ? '1 Month' : '3 Months',
+          'payment_time': remittanceSchedule == 1 ? 'Weekly' : 'Monthly',
+          'payment_mode': transactionPref == 0
+              ? 'Mobile Money'
+              : transactionPref == 2
+                  ? 'Bank Transfer'
+                  : 'Cash',
+          //'payback': payable.round(),
+          'payback_breakdown': (payable * 4).round()
+        };
+
+      default:
+    }
   }
 }

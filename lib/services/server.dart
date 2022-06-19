@@ -320,21 +320,26 @@ class Server {
           'loan_type': loanApplicationDetails.loanType,
           'loan_id': loanApplicationDetails.loanID,
           'user_id': GetStorage().read('userID').toString(),
-          'loan_amount': loanApplicationDetails.loanAmount.toString(),
-          'tenure_period': loanApplicationDetails.tenurePeriod.toString(),
-          'payment_frequency':
-              loanApplicationDetails.paymentFrequency.toString(),
+          'loan_amount':
+              loanApplicationDetails.loanAmounts['loan_amount'].toString(),
+          'tenure_period':
+              loanApplicationDetails.loanAmounts['tenure_period'].toString(),
+          'payment_frequency': loanApplicationDetails
+              .loanAmounts['payment_frequency']
+              .toString(),
           'interest_rate': loanApplicationDetails.interestRate.toString(),
           'transaction_source': loanApplicationDetails.transactionSource,
-          'principal': loanApplicationDetails.principal.toString(),
-          'interest': loanApplicationDetails.interest.toString(),
+          'principal':
+              loanApplicationDetails.loanAmounts['principal'].toString(),
+          'interest': loanApplicationDetails.loanAmounts['interest'].toString(),
           'outstanding_balance':
-              loanApplicationDetails.outstandingBalance.toString(),
+              loanApplicationDetails.loanAmounts['total_amount'].toString(),
           'pay_off_date': loanApplicationDetails.payOffDate.toString(),
-          'payment_mode': loanApplicationDetails.paymentMode,
-          'payment_time': loanApplicationDetails.paymentTime,
-          'loan_period': loanApplicationDetails.loanPeriod,
-          'pay_back': loanApplicationDetails.payBack.toString(),
+          'payment_mode': loanApplicationDetails.loanAmounts['payment_mode'],
+          'payment_time': loanApplicationDetails.loanAmounts['payment_time'],
+          'loan_period': loanApplicationDetails.loanAmounts['loan_period'],
+          'pay_back': loanApplicationDetails.loanAmounts['payback_breakdown']
+              .toString(),
           'is_cleared': loanApplicationDetails.isCleared ? '1' : '0',
           'is_approved': loanApplicationDetails.approvedStatus ? '1' : '0',
           'is_denied': '0',
@@ -352,6 +357,7 @@ class Server {
     debugPrint(message.body);
 
     if (json.decode(message.body)['success'] == true) {
+      GetStorage().write('hasOngoingLoan', true);
       CustomOverlay.showToast(
           'Loan application successful!', Colors.green, Colors.white);
       LocalDB.writeLoanApplicationDetails(loanApplicationDetails.toMap())
