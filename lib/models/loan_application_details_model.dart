@@ -18,8 +18,8 @@ class LoanApplicationModel {
     required this.loanID,
     required this.loanAmounts,
     this.loanAmount,
-     this.tenurePeriod,
-     this.paymentFrequency,
+    this.tenurePeriod,
+    this.paymentFrequency,
     required this.interestRate,
     required this.transactionSource,
     //required this.principal,
@@ -121,7 +121,14 @@ class LoanCategoryModel {
 
 class EndUserModel {
   EndUserModel(
-      {this.profilePic,
+      {this.dob,
+      this.gender,
+      this.haveOtherLoans,
+      this.loanPurpose,
+      this.monthlyIncome,
+      this.nextOfKin,
+      this.profession,
+      this.profilePic,
       this.phoneNumber,
       this.nin,
       this.fullNames,
@@ -144,10 +151,26 @@ class EndUserModel {
   }
 
   final String? nin, fullNames, emailAddress, location, profilePic, phoneNumber;
-  final String? referralID, password, passwordConfirm;
+  final String? referralID,
+      dob,
+      gender,
+      haveOtherLoans,
+      loanPurpose,
+      monthlyIncome,
+      nextOfKin,
+      profession,
+      password,
+      passwordConfirm;
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
+      'dob': dob,
+      'gender': gender,
+      'have_other_loan': haveOtherLoans,
+      'loan_purpose': loanPurpose,
+      'monthly_income': monthlyIncome,
+      'next_of_kin': nextOfKin,
+      'profession': profession,
       'phone_number': phoneNumber,
       'profile_pic': profilePic,
       'full_names': fullNames,

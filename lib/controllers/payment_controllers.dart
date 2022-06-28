@@ -33,7 +33,10 @@ class PaymentController extends GetxController {
       final ChargeResponse response =
           await flutterwave.initializeForUiPayments();
 
-      if (response.data!.status == 'successful') {
+      print(response.message);
+      print(response.status);
+      print(response.meta);
+      if (response.data!.status == 'success') {
         var paymentDetails = PaymentModel(
             userID: GetStorage().read('userID'),
             loanApplicationID: loanID,
@@ -79,7 +82,7 @@ class PaymentController extends GetxController {
             amountPaid: response.data!.amount,
             paymentDate: DateFormat.yMMMd().format(DateTime.now()),
             transactionID: response.data!.txRef,
-            transactionMode: 'Mobile Money');
+            transactionMode: 'Bank');
 
         Server.makePayment(context, paymentDetails);
       }

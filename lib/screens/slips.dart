@@ -1,5 +1,6 @@
 import 'package:banja/controllers/homePageController.dart';
 import 'package:banja/services/server.dart';
+import 'package:intl/intl.dart';
 import '../shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,6 +55,7 @@ class _SlipsPageState extends State<Slips> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const LoadingData();
                 } else if (snapshot.hasError) {
+                  
                   return const NetworkError();
                 } else if (snapshot.data == null) {
                   return const NoRecordError();
@@ -80,8 +82,10 @@ class _SlipsPageState extends State<Slips> {
                                   ),
                                   Text(
                                     'UGX ' +
-                                        snapshot.data['loan_amount']
-                                            .toString() +
+                                        NumberFormat.decimalPattern().format(
+                                            int.parse(snapshot
+                                                .data['loan_amount']
+                                                .toString())) +
                                         '/=',
                                     style: TextStyle(
                                         color: Colors.black87,
@@ -103,7 +107,10 @@ class _SlipsPageState extends State<Slips> {
                                   ),
                                   Text(
                                     'UGX ' +
-                                        snapshot.data['total_paid'].toString() +
+                                        NumberFormat.decimalPattern().format(
+                                            int.parse(snapshot
+                                                .data['total_paid']
+                                                .toString())) +
                                         '/=',
                                     style: TextStyle(
                                         color: Colors.black87,
@@ -126,8 +133,10 @@ class _SlipsPageState extends State<Slips> {
                                   ),
                                   Text(
                                     'UGX ' +
-                                        snapshot.data['outstanding_balance']
-                                            .toString() +
+                                        NumberFormat.decimalPattern().format(
+                                            int.parse(snapshot
+                                                .data['outstanding_balance']
+                                                .toString())) +
                                         '/=',
                                     style: TextStyle(
                                         color: Colors.black87,
@@ -247,7 +256,7 @@ class _SlipsPageState extends State<Slips> {
                                               ),
                                               const Spacer(),
                                               Text(
-                                                'UGX ${snapshot.data['payload'][index]['paid_amount']}/=',
+                                                'UGX ${NumberFormat.decimalPattern().format(int.parse(snapshot.data['payload'][index]['paid_amount'].toString()))}/=',
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: 'Poppins',
@@ -257,10 +266,7 @@ class _SlipsPageState extends State<Slips> {
                                             ],
                                           ),
                                           SizedBox(
-                                            height: 15.h,
-                                          ),
-                                          SizedBox(
-                                            height: 10.h,
+                                            height: 25.h,
                                           ),
                                           const Divider(
                                             color: Colors.black38,

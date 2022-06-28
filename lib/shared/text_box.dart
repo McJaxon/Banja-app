@@ -61,6 +61,7 @@ class _TextBoxState extends State<TextBox> {
             validator: widget.dataVerify,
             controller: widget.textController,
             keyboardType: widget.textType,
+            focusNode: widget.focusNode,
             onTap: () async {
               if (widget.isDate) {
                 DateTime? pickedDate = await showDatePicker(

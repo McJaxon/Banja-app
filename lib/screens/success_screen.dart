@@ -1,4 +1,5 @@
 import 'package:banja/models/loan_application_details_model.dart';
+import 'package:banja/screens/dashboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -313,7 +314,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             ),
                             onPressed: () {
                               HapticFeedback.lightImpact();
-                              paymentController.updateDetails();
+                              Get.to(() => const Dashboard());
+                              //paymentController.updateDetails();
                             },
                           ),
                         ),

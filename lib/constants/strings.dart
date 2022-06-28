@@ -11,15 +11,6 @@ List<Map<String, dynamic>> loanCategory = [
   {"asset": "lorry.svg", "category": "Logbook Loan", "loan_id": '5'}
 ];
 
-var actionCategory = [
-  {"asset": "arrow_right.svg", "category": "Make a loan"},
-  {"asset": "arrow_down.svg", "category": "Make a deposit"},
-  {"asset": "record.svg", "category": "Record"},
-  {"asset": "repeat.svg", "category": "Cash back"},
-  {"asset": "settings.svg", "category": "Settings"},
-  {"asset": "download.svg", "category": "Download slips"}
-];
-
 List transactionSource = [
   {"title": "Mobile Money Transfer"},
   {"title": "Bank Money Transfer"},
@@ -65,6 +56,9 @@ Uri getLoanCategories = Uri.parse('$baseUrl/loan_categories');
 Uri getMyLoanDetails =
     Uri.parse('$baseUrl/loan/get_user_loan_applications/$userID');
 
+///get transaction type
+Uri getTransactionTypes = Uri.parse('$baseUrl/settings/get_transaction_types');
+
 ///get payment details
 Uri getMyPaymentDetails =
     Uri.parse('$baseUrl/payments/get_user_payments/$userID');
@@ -80,3 +74,6 @@ Uri phoneSignInUri = Uri.parse('$baseUrl/user/phone_sign_in');
 
 ///create user tag
 Uri userTagUri = Uri.parse('$baseUrl/user/create_user_tag');
+
+///get all loan categories
+Uri getAllLoanTypes = Uri.parse('$baseUrl/settings/get_all_loan_categories');

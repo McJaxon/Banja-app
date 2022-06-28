@@ -6,6 +6,7 @@ import 'package:banja/controllers/loanDetailControllers.dart';
 import 'package:banja/controllers/notifications_controller.dart';
 import 'package:banja/controllers/userDetailsController.dart';
 import 'package:banja/screens/profile.dart';
+import 'package:banja/services/server.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
@@ -62,118 +63,154 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         },
         child: Stack(
           children: [
-            PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: homeController.pageController,
-              children: [
-                Stack(
-                  children: [
-                    DashTopPart(
-                      onClick: () {
-                        homeController.sliderKey.currentState?.toggle();
-                      },
-                      notifyTap: () {
-                        notificationController.showNotificationModalPage(
-                            context, build);
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 445.h),
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Column(
+            FutureBuilder(
+                future: Future.wait([
+                  Server.fetchAllLoanCategories(),
+                  Server.fetchMyLoanRecords(),
+                  Server.fetchTransactions()
+                ]),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const LoadingData();
+                  } else {
+                    return PageView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: homeController.pageController,
+                      children: [
+                        Stack(
                           children: [
-                            ListView.builder(
-                                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: loanCategory.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 8.h),
-                                    child: Container(
-                                      height: 60.h,
-                                      decoration: BoxDecoration(
-                                          color: const Color.fromARGB(
-                                              255, 241, 244, 244),
-                                          borderRadius:
-                                              BorderRadius.circular(10.r)),
-                                      child: Padding(
+                            DashTopPart(
+                              data: snapshot.data[1],
+                              onClick: () {
+                                homeController.sliderKey.currentState?.toggle();
+                              },
+                              notifyTap: () {
+                                notificationController
+                                    .showNotificationModalPage(context, build);
+                              },
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 445.h),
+                              child: SingleChildScrollView(
+                                physics: const BouncingScrollPhysics(),
+                                child: Column(
+                                  children: [
+                                    ListView.builder(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 10.w),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: 60.w,
-                                              height: 50.w,
+                                            horizontal: 20.w),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            snapshot.data[0]['payload'].length,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 8.h),
+                                            child: Container(
+                                              height: 60.h,
                                               decoration: BoxDecoration(
                                                   color: const Color.fromARGB(
-                                                      255, 223, 229, 229),
+                                                      255, 241, 244, 244),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          5.r)),
+                                                          10.r)),
                                               child: Padding(
-                                                padding: EdgeInsets.all(8.w),
-                                                child: SvgPicture.asset(
-                                                  'assets/images/${loanCategory[index]['asset']!}',
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10.w),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 60.w,
+                                                      height: 50.w,
+                                                      decoration: BoxDecoration(
+                                                          color: const Color
+                                                                  .fromARGB(255,
+                                                              255, 255, 255),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.r)),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(2.w),
+                                                        child: Image.asset(
+                                                          'assets/images/loan.png',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10.w,
+                                                    ),
+                                                    Text(
+                                                      snapshot.data[0]
+                                                              ['payload'][index]
+                                                          ['loan_type'],
+                                                      style: TextStyle(
+                                                          fontFamily: 'Poppins',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 16.sp),
+                                                    ),
+                                                    const Spacer(),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        HapticFeedback
+                                                            .lightImpact();
+
+                                                        loanDetails.requestLoan(
+                                                            extraData: snapshot
+                                                                .data[2],
+                                                            context: context,
+                                                            loanCategoryData:
+                                                                snapshot.data[0]
+                                                                        [
+                                                                        'payload']
+                                                                    [index],
+                                                            loanID:
+                                                                loanCategory[
+                                                                        index][
+                                                                    'loan_id']!,
+                                                            controller:
+                                                                _controller);
+                                                      },
+                                                      child: Text(
+                                                        'Apply',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 15.sp),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10.w,
+                                                    ),
+                                                    const Icon(
+                                                        Icons.arrow_forward_ios,
+                                                        color:
+                                                            Color(0xff06919A))
+                                                  ],
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(
-                                              width: 10.w,
-                                            ),
-                                            Text(
-                                              loanCategory[index]['category'],
-                                              style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16.sp),
-                                            ),
-                                            const Spacer(),
-                                            GestureDetector(
-                                              onTap: () {
-                                                HapticFeedback.lightImpact();
-                                                loanDetails.requestLoan(
-                                                    context: context,
-                                                    loanCategory:
-                                                        loanCategory[index]
-                                                            ['category']!,
-                                                    loanID: loanCategory[index]
-                                                        ['loan_id']!,
-                                                    controller: _controller);
-                                              },
-                                              child: Text(
-                                                'Apply',
-                                                style: TextStyle(
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 15.sp),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 10.w,
-                                            ),
-                                            const Icon(Icons.arrow_forward_ios,
-                                                color: Color(0xff06919A))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                            SizedBox(
-                              height: 120.h,
-                            )
+                                          );
+                                        }),
+                                    SizedBox(
+                                      height: 120.h,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                const ProfilePage()
-              ],
-            ),
+                        const ProfilePage()
+                      ],
+                    );
+                  }
+                }),
             Align(
               alignment: Alignment.bottomCenter,
               child: Obx(() {
@@ -197,9 +234,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 }
 
 class DashTopPart extends StatelessWidget {
-  DashTopPart({Key? key, required this.onClick, required this.notifyTap})
+  DashTopPart(
+      {Key? key,
+      required this.data,
+      required this.onClick,
+      required this.notifyTap})
       : super(key: key);
-
+  var data;
   final LoanDetailController loanController = Get.find();
   final UserDetailsController userDetails = Get.find();
   final VoidCallback onClick, notifyTap;
@@ -220,352 +261,359 @@ class DashTopPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Material(
-        child: Stack(
-          children: [
-            Container(
-              height: 430.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                boxShadow: const [
-                  BoxShadow(
-                      offset: Offset(0.0, 4.0),
-                      blurRadius: 5.0,
-                      spreadRadius: 0.0,
-                      color: Color.fromRGBO(0, 0, 0, 0.12))
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(23.r),
-                    bottomRight: Radius.circular(23.r)),
-              ),
+    return Material(
+      child: Stack(
+        children: [
+          Container(
+            height: 430.h,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                    offset: Offset(0.0, 4.0),
+                    blurRadius: 5.0,
+                    spreadRadius: 0.0,
+                    color: Color.fromRGBO(0, 0, 0, 0.12))
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(23.r),
+                  bottomRight: Radius.circular(23.r)),
             ),
-            Container(
-              height: 220.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                boxShadow: const [
-                  BoxShadow(
-                      offset: Offset(0.0, 4.0),
-                      blurRadius: 5.0,
-                      spreadRadius: 0.0,
-                      color: Color.fromRGBO(0, 0, 0, 0.12))
-                ],
-                color: const Color(0xff06919A),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(23.r),
-                    bottomRight: Radius.circular(23.r)),
-              ),
+          ),
+          Container(
+            height: 220.h,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                    offset: Offset(0.0, 4.0),
+                    blurRadius: 5.0,
+                    spreadRadius: 0.0,
+                    color: Color.fromRGBO(0, 0, 0, 0.12))
+              ],
+              color: const Color(0xff06919A),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(23.r),
+                  bottomRight: Radius.circular(23.r)),
             ),
-            ClipPath(
-              clipper: LoginPageSmallClipper(),
-              child: Container(
-                  height: 306.w,
-                  width: 308.w,
-                  decoration: const BoxDecoration(color: Color(0xff0EA2AC))),
-            ),
-            Positioned(
-                left: 20.w,
-                top: 125.h,
-                child: Text(
-                  GetStorage().read('fullNames') == null
-                      ? 'Welcome,'
-                      : '${greeting.call()},\n${GetStorage().read('fullNames')}',
-                  style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18.0),
-                )),
-            Positioned(
-                right: 170.w,
-                top: 130.h,
-                child: Image.asset(
-                  'assets/images/Vector.png',
-                  width: 76.w,
-                  height: 60.w,
-                )),
-            Positioned(
-                right: 20.w,
-                top: 100.h,
-                child: Image.asset(
-                  'assets/images/card.png',
-                  width: 126.w,
-                  height: 85.h,
-                )),
-            Positioned(
-                left: 20.w,
-                right: 20.w,
-                top: 50.h,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: onClick,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8.r)),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
-                            child: SvgPicture.asset(
-                              'assets/images/menu.svg',
-                            ),
-                          )),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: notifyTap,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8.r)),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
-                            child: SvgPicture.asset(
-                              'assets/images/bell.svg',
-                            ),
-                          )),
-                    ),
-                  ],
-                )),
-            Positioned(
+          ),
+          ClipPath(
+            clipper: LoginPageSmallClipper(),
+            child: Container(
+                height: 306.w,
+                width: 308.w,
+                decoration: const BoxDecoration(color: Color(0xff0EA2AC))),
+          ),
+          Positioned(
               left: 20.w,
-              bottom: 6.h,
-              right: 0.w,
-              child: SizedBox(
-                height: 220.h,
-                child: PageView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: loanController.loanDetails.isEmpty
-                      ? 1
-                      : loanController.loanDetails.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, int index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 30.h,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            index == 0
-                                ? Container(
-                                    width: 30.w,
-                                    height: 6.h,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
-                                        color: const Color(0xff06919A)),
-                                  )
-                                : Container(),
-                            SizedBox(
-                              width: 4.w,
+              top: 125.h,
+              child: Text(
+                GetStorage().read('fullNames') == null
+                    ? 'Welcome,'
+                    : '${greeting.call()},\n${GetStorage().read('fullNames')}',
+                style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18.0),
+              )),
+          Positioned(
+              right: 170.w,
+              top: 130.h,
+              child: Image.asset(
+                'assets/images/Vector.png',
+                width: 76.w,
+                height: 60.w,
+              )),
+          Positioned(
+              right: 20.w,
+              top: 100.h,
+              child: Image.asset(
+                'assets/images/card.png',
+                width: 126.w,
+                height: 85.h,
+              )),
+          Positioned(
+              left: 20.w,
+              right: 20.w,
+              top: 50.h,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: onClick,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.r)),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
+                          child: SvgPicture.asset(
+                            'assets/images/menu.svg',
+                          ),
+                        )),
+                  ),
+                  // const Spacer(),
+                  // GestureDetector(
+                  //   onTap: notifyTap,
+                  //   child: Container(
+                  //       decoration: BoxDecoration(
+                  //           color: Colors.white,
+                  //           borderRadius: BorderRadius.circular(8.r)),
+                  //       child: Padding(
+                  //         padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
+                  //         child: SvgPicture.asset(
+                  //           'assets/images/bell.svg',
+                  //         ),
+                  //       )),
+                  // ),
+                ],
+              )),
+          Positioned(
+            left: 20.w,
+            bottom: 6.h,
+            right: 0.w,
+            child: SizedBox(
+              height: 220.h,
+              child: PageView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: 1,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, int index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          index == 0
+                              ? Container(
+                                  width: 30.w,
+                                  height: 6.h,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      color: const Color(0xff06919A)),
+                                )
+                              : Container(),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          Container(
+                            width: 10.w,
+                            height: 6.h,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                color: const Color.fromARGB(113, 6, 144, 154)),
+                          ),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          index == 1
+                              ? Container(
+                                  width: 30.w,
+                                  height: 6.h,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      color: const Color(0xff06919A)),
+                                )
+                              : Container(),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          Container(
+                            width: 10.w,
+                            height: 6.h,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                                color: const Color.fromARGB(113, 6, 144, 154)),
+                          ),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          index == 2
+                              ? Container(
+                                  width: 30.w,
+                                  height: 6.h,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      color: const Color(0xff06919A)),
+                                )
+                              : Container(),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          Text(
+                            loanController.loanDetails.isEmpty
+                                ? ''
+                                : '${index + 1}/${loanController.loanDetails.length.toString()}',
+                            style: TextStyle(
+                                fontFamily: 'Poppins', fontSize: 15.sp),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Balance',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins', fontSize: 18.sp),
+                              ),
+                              Text(
+                                  data == null
+                                      ? 'UGX-/='
+                                      : 'UGX ${NumberFormat.decimalPattern().format(int.parse(data['outstanding_balance'].toString()))}/=',
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      color: const Color(0xff007981),
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 25.sp)),
+                            ],
+                          ),
+                          const Spacer(),
+                          AnimatedCircularChart(
+                            size: Size(130.w, 130.w),
+                            initialChartData: <CircularStackEntry>[
+                              CircularStackEntry(
+                                <CircularSegmentEntry>[
+                                  CircularSegmentEntry(
+                                    data == null
+                                        ? 0
+                                        : (int.parse((data['total_paid'])
+                                                    .toString()) /
+                                                int.parse(
+                                                    (data['total_loan_amount']
+                                                        .toString()))) *
+                                            100.0,
+                                    Colors.blue[400],
+                                    rankKey: 'completed',
+                                  ),
+                                  CircularSegmentEntry(
+                                    100,
+                                    Colors.blueGrey[600],
+                                    rankKey: 'remaining',
+                                  ),
+                                ],
+                                rankKey: 'progress',
+                              ),
+                            ],
+                            edgeStyle: SegmentEdgeStyle.round,
+                            chartType: CircularChartType.Radial,
+                            percentageValues: true,
+                            holeLabel: data == null
+                                ? '0%'
+                                : ((int.parse((data['total_paid']).toString()) /
+                                                int.parse(
+                                                    (data['total_loan_amount']
+                                                        .toString()))) *
+                                            100.0)
+                                        .round()
+                                        .toString() +
+                                    '%',
+                            holeRadius: 15.0,
+                            labelStyle: TextStyle(
+                              color: Colors.blueGrey[600],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0,
                             ),
-                            Container(
-                              width: 10.w,
-                              height: 6.h,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  color:
-                                      const Color.fromARGB(113, 6, 144, 154)),
-                            ),
-                            SizedBox(
-                              width: 4.w,
-                            ),
-                            index == 1
-                                ? Container(
-                                    width: 30.w,
-                                    height: 6.h,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
-                                        color: const Color(0xff06919A)),
-                                  )
-                                : Container(),
-                            SizedBox(
-                              width: 4.w,
-                            ),
-                            Container(
-                              width: 10.w,
-                              height: 6.h,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  color:
-                                      const Color.fromARGB(113, 6, 144, 154)),
-                            ),
-                            SizedBox(
-                              width: 4.w,
-                            ),
-                            index == 2
-                                ? Container(
-                                    width: 30.w,
-                                    height: 6.h,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
-                                        color: const Color(0xff06919A)),
-                                  )
-                                : Container(),
-                            SizedBox(
-                              width: 4.w,
-                            ),
-                            Text(
-                              loanController.loanDetails.isEmpty
-                                  ? ''
-                                  : '${index + 1}/${loanController.loanDetails.length.toString()}',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 15.sp),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Balance',
+                                  'Current ${(data['payload'][index]['payment_time'])}\nPayment',
                                   style: TextStyle(
-                                      fontFamily: 'Poppins', fontSize: 18.sp),
+                                    fontSize: 15.sp,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 6.0,
                                 ),
                                 Text(
-                                    loanController.loanDetails.isEmpty
+                                    data == null
                                         ? 'UGX-/='
-                                        : 'UGX ${loanController.loanDetails[index]['loan_amount']}/=',
+                                        : 'UGX${NumberFormat.decimalPattern().format(int.parse(data['payload'][index]['pay_back']))}/=',
                                     style: TextStyle(
                                         fontFamily: 'Poppins',
                                         color: const Color(0xff007981),
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 25.sp)),
+                                        fontSize: 16.sp)),
                               ],
                             ),
-                            const Spacer(),
-                            AnimatedCircularChart(
-                              size: Size(130.w, 130.w),
-                              initialChartData: <CircularStackEntry>[
-                                CircularStackEntry(
-                                  <CircularSegmentEntry>[
-                                    CircularSegmentEntry(
-                                      34,
-                                      Colors.blue[400],
-                                      rankKey: 'completed',
-                                    ),
-                                    CircularSegmentEntry(
-                                      100,
-                                      Colors.blueGrey[600],
-                                      rankKey: 'remaining',
-                                    ),
-                                  ],
-                                  rankKey: 'progress',
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Average Interest\nRate',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontFamily: 'Poppins',
+                                  ),
                                 ),
+                                SizedBox(
+                                  height: 6.h,
+                                ),
+                                Text(
+                                    data == null
+                                        ? '-%'
+                                        : '${data['payload'][index]['interest_rate']}%',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        color: const Color(0xff007981),
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16.sp)),
                               ],
-                              edgeStyle: SegmentEdgeStyle.round,
-                              chartType: CircularChartType.Radial,
-                              percentageValues: true,
-                              holeLabel: '34%',
-                              holeRadius: 15.0,
-                              labelStyle: TextStyle(
-                                color: Colors.blueGrey[600],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0,
-                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Payoff Date',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 22.h,
+                                ),
+                                Text(
+                                    data == null
+                                        ? '--/--/--'
+                                        : DateFormat.yMMMd().format(
+                                            DateTime.parse(data['payload']
+                                                    [index]['pay_off_date']
+                                                .toString())),
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        color: const Color(0xff007981),
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16.sp)),
+                              ],
                             )
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Current Monthly\nPayment',
-                                    style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontFamily: 'Poppins',
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 6.0,
-                                  ),
-                                  Text(
-                                      loanController.loanDetails.isEmpty
-                                          ? 'UGX-/='
-                                          : 'UGX${loanController.loanDetails[index]['pay_back']}/=',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          color: const Color(0xff007981),
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16.sp)),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Average Interest\nRate',
-                                    style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontFamily: 'Poppins',
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 6.h,
-                                  ),
-                                  Text(
-                                      loanController.loanDetails.isEmpty
-                                          ? '-%'
-                                          : '${loanController.loanDetails[index]['interest_rate']}%',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          color: const Color(0xff007981),
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16.sp)),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Payoff Date',
-                                    style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontFamily: 'Poppins',
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 22.h,
-                                  ),
-                                  Text(
-                                      loanController.loanDetails.isEmpty
-                                          ? '--/--/--'
-                                          : DateFormat.yMMMd().format(
-                                              DateTime.parse(loanController
-                                                      .loanDetails[index]
-                                                  ['pay_off_date'].toString())),
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          color: const Color(0xff007981),
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16.sp)),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
-          ],
-        ),
-      );
-    });
+          ),
+        ],
+      ),
+    );
   }
 }

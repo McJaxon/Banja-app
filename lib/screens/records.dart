@@ -3,6 +3,7 @@ import 'package:banja/services/server.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '/shared/shared.dart';
 
 class RecordsPage extends StatefulWidget {
@@ -165,106 +166,153 @@ class _RecordsPageState extends State<RecordsPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Row(
+                                          Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                              Row(
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      //Spacer(),
-                                                      Text(
-                                                        snapshot.data['payload']
-                                                                [index]
-                                                            ['loan_type'],
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black87,
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 23.sp),
-                                                      ),
-                                                    ],
+                                                  //Spacer(),
+                                                  Text(
+                                                    snapshot.data['payload']
+                                                            [index]
+                                                        ['loan_type'],
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.black87,
+                                                        fontFamily:
+                                                            'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 23.sp),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Loan Status',
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.black54,
+                                                        fontFamily:
+                                                            'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 18.sp),
                                                   ),
                                                   SizedBox(
-                                                    height: 10.h,
+                                                    width: 10.w,
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'Loan Status',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black54,
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 18.sp),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10.w,
-                                                      ),
-                                                      Text(
-                                                        snapshot.data['payload']
-                                                                        [index][
-                                                                    'is_approved'] ==
-                                                                '0'
-                                                            ? 'Not Approved'
-                                                            : 'Approved',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w200,
-                                                            fontSize: 18.sp),
-                                                      ),
-                                                    ],
+                                                  Text(
+                                                    snapshot.data['payload']
+                                                                    [index][
+                                                                'is_approved'] ==
+                                                            '0'
+                                                        ? 'Not Approved'
+                                                        : 'Approved',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily:
+                                                            'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w200,
+                                                        fontSize: 18.sp),
                                                   ),
-                                                  SizedBox(
-                                                    height: 10.h,
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10.h,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Requested Loan Amount:',
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.black54,
+                                                        fontFamily:
+                                                            'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 18.sp),
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'Loan Amount:',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black54,
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 18.sp),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10.w,
-                                                      ),
-                                                      Text(
-                                                        snapshot.data['payload']
-                                                                [index]
-                                                                ['loan_amount']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w200,
-                                                            fontSize: 18.sp),
-                                                      ),
-                                                    ],
+                                               const Spacer(),
+                                                  Text('UGX '+
+                                                    NumberFormat.decimalPattern().format(int.parse(snapshot.data['payload']
+                                                            [index]
+                                                            ['loan_amount']
+                                                        .toString()))+'/=',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily:
+                                                            'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w200,
+                                                        fontSize: 18.sp),
                                                   ),
                                                 ],
                                               ),
                                             ],
                                           ),
+
+      SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'Outstanding Balance:',
+                                                style: TextStyle(
+                                                    color: Colors.black54,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18.sp),
+                                              ),
+                                              const Spacer(),
+                                              Text(
+                                                'UGX ${NumberFormat.decimalPattern().format(int.parse(snapshot.data['payload'][index]['outstanding_balance'].toString()))}/=',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w200,
+                                                    fontSize: 18.sp),
+                                              ),
+                                            ],
+                                          ),
+
+
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+
+
+                                                 Row(
+                                            children: [
+                                              Text(
+                                                'Interest:',
+                                                style: TextStyle(
+                                                    color: Colors.black54,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18.sp),
+                                              ),
+                                              const Spacer(),
+                                              Text(
+                                                'UGX ${NumberFormat.decimalPattern().format(int.parse(snapshot.data['payload'][index]['interest'].toString()))}/=',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w200,
+                                                    fontSize: 18.sp),
+                                              ),
+                                            ],
+                                          ),
+
+
                                           SizedBox(
                                             height: 10.h,
                                           ),
@@ -280,7 +328,7 @@ class _RecordsPageState extends State<RecordsPage> {
                                               ),
                                               const Spacer(),
                                               Text(
-                                                'UGX ${snapshot.data['payload'][index]['pay_back']}/=',
+                                                'UGX ${NumberFormat.decimalPattern().format(int.parse(snapshot.data['payload'][index]['pay_back'].toString()))}/=',
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: 'Poppins',

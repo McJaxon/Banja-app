@@ -13,8 +13,9 @@ import 'package:lottie/lottie.dart';
 import '../screens/loan_detail.dart';
 
 class LoanDetailController extends GetxController {
+  var payDetails = {}.obs;
   var loanDetails = [].obs;
-    List<bool> transactionSourceSelected = [];
+  List<bool> transactionSourceSelected = [];
   double loanAmount = 10000.0;
   double interestRate = 2.75;
   var paySchedule = 100;
@@ -26,40 +27,50 @@ class LoanDetailController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    getDetails();
+    //getDetails();
   }
 
   void getDetails() {
-    LocalDB.getLoanDetails().then((data) {
-      if (data.isNotEmpty) {
-        loanDetails.addAll(data);
-      } else {
-        Server.fetchMyLoanRecords().then((value) {
-          if (value != null) {
-            GetStorage().write('hasOngoingLoan', true);
-            loanDetails.addAll(value['payload']);
-          }
-        });
+    Server.fetchMyLoanRecords().then((value) {
+      if (value != null) {
+        GetStorage().write('hasOngoingLoan', true);
+        payDetails.addAll(value);
+        loanDetails.addAll(value['payload']);
       }
     });
+    // LocalDB.getLoanDetails().then((data) {
+    //   if (data.isNotEmpty) {
+    //     loanDetails.addAll(data);
+    //   } else {
+    //     Server.fetchMyLoanRecords().then((value) {
+    //       if (value != null) {
+    //         GetStorage().write('hasOngoingLoan', true);
+    //         loanDetails.addAll(value);
+    //       }
+    //     });
+    //   }
+    // });
   }
 
-  void updateDetails() {
-    LocalDB.getLoanDetails().then((data) {
-      loanDetails.add(data.last);
-      Get.to(() => const Dashboard());
-    });
-  }
+  // void updateDetails() {
+  //   LocalDB.getLoanDetails().then((data) {
+  //     loanDetails.add(data.last);
+  //     Get.to(() => const Dashboard());
+  //   });
+  // }
 
   void requestLoan(
       {required BuildContext context,
-      required String loanCategory,
+      required var loanCategoryData,
       required String loanID,
+      required extraData,
       required AnimationController controller}) {
     bool userHasProfile = GetStorage().read('userHasProfileAlready') ?? false;
 
     if (userHasProfile) {
-      Get.to(() => LoanDetail(title: loanCategory, loanID: loanID));
+      Get.to(() => LoanDetail(
+        data: extraData,
+        loanCategoryData: loanCategoryData, loanID: loanID));
     } else {
       userDetails.showRegPop(context, controller);
     }

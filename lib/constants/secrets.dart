@@ -1,12 +1,12 @@
 class Secrets {
   ///Flutterwave Public Key
   static const String flutterwavePublicKey =
-      'FLWPUBK-64c19c2be637c1661f7e6d0a0196ffbc-X';
+      'FLWPUBK-87bef9648adabf67352856d9247ea06e-X';
 
   ///Flutterwave Secret Key
   static const String flutterwaveSecretKey =
-      'FLWSECK_TEST-201462e50cd6d2bfc37f7df2f495ccaf-X';
+      'FLWSECK-0f90d7751866e70efb1626d8715b6ef1-X';
 
   ///Flutterwave Secret Key
-  static const String flutterwaveEncryptionKey = '2440d515decc3d9c62decbad';
+  static const String flutterwaveEncryptionKey = '0f90d77518665a94694b25f2';
 }

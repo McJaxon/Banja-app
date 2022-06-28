@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '/shared/shared.dart';
 
 class MakeDeposit extends StatefulWidget {
@@ -65,10 +66,8 @@ class _MakeDepositState extends State<MakeDeposit> {
                 } else if (snapshot.hasError) {
                   return const NetworkError();
                 } else if (snapshot.data == null) {
-                  print(snapshot.data);
                   return const NoRecordError();
                 } else {
-                  print(snapshot.data);
                   return Padding(
                     padding:
                         EdgeInsets.only(top: 265.h, left: 20.w, right: 20.w),
@@ -77,7 +76,7 @@ class _MakeDepositState extends State<MakeDeposit> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                                 Text(
-                                  'Outstanding Balance\nUGX ${snapshot.data['loan_amount']}/=',
+                                  'Outstanding Balance\nUGX ${NumberFormat.decimalPattern().format(int.parse(snapshot.data['outstanding_balance'].toString()))}/=',
                                   style: TextStyle(
                                       fontSize: 35.sp,
                                       fontFamily: 'Poppins',
@@ -85,7 +84,7 @@ class _MakeDepositState extends State<MakeDeposit> {
                                 ),
                                 Text(
                                   'Pay Back Amount: UGX' +
-                                      snapshot.data['pay_back'].toString() +
+                                     NumberFormat.decimalPattern().format(int.parse(snapshot.data['pay_back'].toString())) +
                                       '/=',
                                   style: TextStyle(
                                       fontSize: 25.sp,

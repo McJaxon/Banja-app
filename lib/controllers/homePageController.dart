@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../services/server.dart';
+
 class HomePageController extends GetxController {
   final sliderKey = GlobalKey<SliderDrawerState>();
   PageController pageController = PageController();
@@ -24,7 +26,7 @@ class HomePageController extends GetxController {
   void pageSelector(index) {
     HapticFeedback.lightImpact();
     currentPage.value = index;
-
+    
     switch (index) {
       case 0:
         pageController.animateToPage(0,

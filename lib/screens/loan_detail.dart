@@ -11,10 +11,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class LoanDetail extends StatefulWidget {
-  const LoanDetail({Key? key, required this.title, required this.loanID})
+  LoanDetail(
+      {Key? key,
+      required this.data,
+      required this.loanCategoryData,
+      required this.loanID})
       : super(key: key);
-  final String title;
+  var loanCategoryData;
   final String loanID;
+
+  var data;
   @override
   State<LoanDetail> createState() => _LoanDetailState();
 }
@@ -47,6 +53,8 @@ class _LoanDetailState extends State<LoanDetail> {
   void initState() {
     loanController.transactionSourceSelected =
         List<bool>.filled(transactionSource.length, false);
+    loanController.loanAmount =
+        double.parse(widget.loanCategoryData['minimum_amount']);
 
     super.initState();
   }
@@ -87,7 +95,7 @@ class _LoanDetailState extends State<LoanDetail> {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Text(
-                  widget.title,
+                  widget.loanCategoryData['loan_type'],
                   style: const TextStyle(
                       fontFamily: 'Poppins',
                       color: Colors.white,
@@ -138,11 +146,15 @@ class _LoanDetailState extends State<LoanDetail> {
                       children: [
                         Expanded(
                             child: Slider(
-                                min: 10000.0,
+                                min: double.parse(
+                                    widget.loanCategoryData['minimum_amount']),
                                 divisions: 4990,
-                                max: 5000000.0,
+                                max: double.parse(
+                                    widget.loanCategoryData['maximum_amount']),
                                 value: loanController.loanAmount,
-                                label: loanController.loanAmount.toString(),
+                                label: loanController.loanAmount
+                                    .toInt()
+                                    .toString(),
                                 inactiveColor: const Color(0xffE3E2E2),
                                 activeColor: const Color(0xff007981),
                                 onChanged: (value) {
@@ -157,7 +169,8 @@ class _LoanDetailState extends State<LoanDetail> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            '10,000',
+                            NumberFormat.decimalPattern().format(int.parse(
+                                widget.loanCategoryData['minimum_amount'])),
                             style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 14.sp,
@@ -165,7 +178,8 @@ class _LoanDetailState extends State<LoanDetail> {
                           ),
                           const Spacer(),
                           Text(
-                            '5,000,000',
+                            NumberFormat.decimalPattern().format(int.parse(
+                                widget.loanCategoryData['maximum_amount'])),
                             style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 14.sp,
@@ -394,7 +408,7 @@ class _LoanDetailState extends State<LoanDetail> {
                             borderRadius: BorderRadius.circular(11.0)),
                         child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: transactionSource.length,
+                            itemCount: widget.data.length,
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
@@ -405,7 +419,7 @@ class _LoanDetailState extends State<LoanDetail> {
                                   controlAffinity:
                                       ListTileControlAffinity.leading,
                                   title: Text(
-                                    transactionSource[index]['title'],
+                                    widget.data[index]['name'],
                                     style: TextStyle(
                                         fontFamily: 'Poppins', fontSize: 16.sp),
                                   ),
@@ -451,7 +465,7 @@ class _LoanDetailState extends State<LoanDetail> {
                             var loanApplicationDetails = LoanApplicationModel(
                                 approvedStatus: false,
                                 isCleared: false,
-                                loanType: widget.title,
+                                loanType: widget.loanCategoryData['loan_type'],
                                 loanID: widget.loanID,
                                 interestRate:
                                     loanController.interestRate.toInt(),

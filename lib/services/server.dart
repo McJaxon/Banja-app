@@ -21,6 +21,7 @@ import 'package:banja/services/local_db.dart';
 import 'package:banja/utils/customOverlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show HapticFeedback;
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -53,8 +54,15 @@ class Server {
                 'nin': userDetailModel.nin!,
                 "password": userDetailModel.password!,
                 "password_confirmation": userDetailModel.passwordConfirm!,
-                "profile_pic": userDetailModel.profilePic!
-
+                "profile_pic": userDetailModel.profilePic!,
+                "role_id": '2',
+                'dob': userDetailModel.dob!,
+                'gender': userDetailModel.gender!,
+                'have_other_loans': userDetailModel.haveOtherLoans!,
+                'loan_purpose': userDetailModel.loanPurpose!,
+                'monthly_income': userDetailModel.monthlyIncome!,
+                'next_of_kin': userDetailModel.nextOfKin!,
+                'profession': userDetailModel.profession!
                 //'referral_id': element['referral_id'],
                 //'sex': element['sex'],
               },
@@ -92,6 +100,12 @@ class Server {
             json.decode(message.body)['payload']['phone_number']);
         CustomOverlay.showToast(
             'Account created successfully!', Colors.green, Colors.white);
+        // reset current app state
+        await Get.deleteAll(force: true);
+// restart app
+        Phoenix.rebirth(Get.context!);
+// reset get state
+        Get.reset();
       } else {
         if (json.decode(message.body)['errors'] == null) {
           CustomOverlay.showToast(json.decode(message.body)['errors'].first,
@@ -158,6 +172,11 @@ class Server {
             'Hey there!, welcome back😊', Colors.green, Colors.white);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const Dashboard()));
+        await Get.deleteAll(force: true);
+// restart app
+        Phoenix.rebirth(Get.context!);
+// reset get state
+        Get.reset();
       } else {
         CustomOverlay.showToast(
             json.decode(message.body)['message'], Colors.red, Colors.white);
@@ -214,6 +233,11 @@ class Server {
             'Hey there!, welcome back😊', Colors.green, Colors.white);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const Dashboard()));
+        await Get.deleteAll(force: true);
+// restart app
+        Phoenix.rebirth(Get.context!);
+// reset get state
+        Get.reset();
       } else {
         CustomOverlay.showToast(
             json.decode(message.body)['message'], Colors.red, Colors.white);
@@ -384,9 +408,34 @@ class Server {
     if (request.statusCode == 200) {
       return json.decode(request.body);
     } else {
-      //CustomOverlay.showToast('Something went wrong', Colors.red, Colors.white);
       return null;
     }
+  }
+
+  static Future fetchTransactions() async {
+    var request = http.MultipartRequest('GET', getTransactionTypes)
+      ..headers.addAll({"Authorization": 'Bearer $accessToken'});
+
+    var response = await request.send();
+    final message = await http.Response.fromStream(response);
+
+    if (json.decode(message.body)['success'] == true) {
+      return json.decode(message.body)['payload'];
+    }
+    return response;
+  }
+
+  static Future fetchAllLoanCategories() async {
+    var request = http.MultipartRequest('GET', getAllLoanTypes)
+      ..headers.addAll({"Authorization": 'Bearer $accessToken'});
+
+    var response = await request.send();
+    final message = await http.Response.fromStream(response);
+
+    if (json.decode(message.body)['success'] == true) {
+      return json.decode(message.body);
+    }
+    return response;
   }
 
   static Future fetchMyPaymentDetails() async {
@@ -396,7 +445,6 @@ class Server {
     if (request.statusCode == 200) {
       return json.decode(request.body);
     } else {
-      //CustomOverlay.showToast('Something went wrong', Colors.red, Colors.white);
       return null;
     }
   }
