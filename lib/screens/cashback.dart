@@ -1,4 +1,4 @@
-import 'package:banja/controllers/homePageController.dart';
+import 'package:banja/controllers/homepage_controller.dart';
 import 'package:banja/services/server.dart';
 import 'package:banja/utils/customOverlay.dart';
 import 'package:bouncing_widget/bouncing_widget.dart';
@@ -19,7 +19,7 @@ class Cashback extends StatefulWidget {
 }
 
 class _CashbackState extends State<Cashback> {
-  final homeController = Get.put(HomePageController());
+  HomePageController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

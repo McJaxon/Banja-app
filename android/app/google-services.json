@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "256955403295-4ubv8g7gcnns845o4ubl5ev7jugb06ia.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zaren.tuula",
+            "certificate_hash": "a5b37256012c66016994c3d3ad45c3d77dd7e32e"
+          }
+        },
+        {
           "client_id": "256955403295-hks4ame3v9a02jg1cvseemv6mfr2ilqf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -47,10 +55,10 @@
               "client_type": 3
             },
             {
-              "client_id": "256955403295-kpai3ib66j017qoq7pfht3ud29bphunq.apps.googleusercontent.com",
+              "client_id": "256955403295-8a4pq004a6h1p8kr60q0jlbjcqc8rm93.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.zaren.tuula"
+                "bundle_id": "com.example.banja"
               }
             }
           ]

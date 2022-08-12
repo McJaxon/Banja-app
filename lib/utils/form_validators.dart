@@ -9,6 +9,7 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 
 class FieldValidator {
+  FieldValidator._();
   static String? validateEmail(String? value) {
     Pattern pattern =
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
@@ -42,6 +43,22 @@ class FieldValidator {
     }
   }
 
+  static String? validateLoanAmount(String? value, min, max) {
+    Pattern pattern = r"^[0-9]";
+    var amount = value!.replaceAll(RegExp(r'[^0-9]'), '');
+
+    RegExp regex = RegExp(pattern.toString());
+    if (int.parse(amount) > max) {
+      return 'Value is too much';
+    } else if (int.parse(amount) < min) {
+      return 'Value is less';
+    } else if (amount.isEmpty) {
+      return 'Fill in a valid phone';
+    } else {
+      return null;
+    }
+  }
+
   static String? validatePhone(String? value) {
     Pattern pattern = r"^[0-9]";
 
@@ -70,16 +87,16 @@ class FieldValidator {
   }
 
   static String? validateNIN(String? value) {
-    if (value!.isNotEmpty) {
-      print('hello i am here');
-      if (!(value.startsWith('F', 1) || value.startsWith('M', 1))) {
+    if (value != null) {
+      if ((value.startsWith('F', 1) || value.startsWith('M', 1))) {
         return 'Enter a valid NIN, starting with \'CM......\' or \'CF......\'';
       } else if (value.length < 14 && value.isNotEmpty) {
         return 'Enter a complete NIN, it is 14 characters long';
+      } else {
+        return null;
       }
-      return null;
     } else {
-      return null;
+      return 'Fill NIN';
     }
   }
 

@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:banja/controllers/authControllers.dart';
+import 'package:banja/controllers/auth_controller.dart';
 import 'package:banja/screens/dashboard.dart';
+import 'package:banja/services/server.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +14,13 @@ import '../../utils/customOverlay.dart';
 import '../../shared/shared.dart';
 
 class PhoneOTP extends StatefulWidget {
-  const PhoneOTP({Key? key, this.verificationId, this.tempPhone})
+  const PhoneOTP(
+      {Key? key, this.verificationId, this.tempPhone, this.existing = false})
       : super(key: key);
 
   final String? verificationId;
   final String? tempPhone;
-
+  final bool existing;
   @override
   State<PhoneOTP> createState() => _PhoneOTPState();
 }
@@ -29,14 +31,14 @@ class _PhoneOTPState extends State<PhoneOTP> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool trigger = false;
-  bool showResend = false;
+
   late Timer timer;
 
   @override
   void initState() {
     timer = Timer.periodic(const Duration(seconds: 40), (Timer timer) {
-      authController.showResend(true);
-      timer.cancel();
+      authController.showResend.value = !authController.showResend.value;
+      //timer.cancel();
     });
 
     authController.otp1.addListener(() {
@@ -127,9 +129,9 @@ class _PhoneOTPState extends State<PhoneOTP> {
                 children: <Widget>[
                   Center(
                     child: Text(
-                      'An authorization code has been sent to your phone number +256 ${widget.tempPhone}',
+                      'An authorization code has been sent to your phone number +256${widget.tempPhone}',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 13.0),
+                      style: TextStyle(fontSize: 19.sp),
                     ),
                   ),
                   SizedBox(
@@ -172,18 +174,22 @@ class _PhoneOTPState extends State<PhoneOTP> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'I didn\'t receive a code',
+                              'I didn\'t receive OTP',
                               style: TextStyle(
-                                  fontSize: 11.sp, fontFamily: 'Poppins'),
+                                  fontSize: 17.sp, fontFamily: 'Poppins'),
                             ),
                             TextButton(
-                                onPressed: null,
+                                onPressed: () {
+                                  authController.showResend.value
+                                      ? authController.phoneAuth(context)
+                                      : null;
+                                },
                                 child: Text(
                                   'Resend Code',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 13.sp,
+                                    fontSize: 17.sp,
                                     color: const Color(0xff007981),
                                   ),
                                 ))
@@ -204,7 +210,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
                                   'secs left',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 13.sp),
+                                      fontSize: 17.sp),
                                 )
                               ],
                             ),
@@ -244,14 +250,14 @@ class _PhoneOTPState extends State<PhoneOTP> {
                                 fontWeight: FontWeight.w600),
                           ),
                           onPressed: () async {
+                            HapticFeedback.lightImpact();
                             FocusScopeNode currentFocus =
                                 FocusScope.of(context);
                             if (!currentFocus.hasPrimaryFocus &&
                                 currentFocus.focusedChild != null) {
                               currentFocus.focusedChild!.unfocus();
                             }
-                            print(authController.field3.text);
-                            HapticFeedback.lightImpact();
+
                             CustomOverlay.showLoaderOverlay(duration: 5);
                             final smsCode = authController.field1.text.trim() +
                                 authController.field2.text.trim() +
@@ -264,32 +270,38 @@ class _PhoneOTPState extends State<PhoneOTP> {
                               verificationId: widget.verificationId!,
                               smsCode: smsCode,
                             );
-
                             if (smsCode.length == 6) {
-                              try {
-                                // Sign the user in (or link) with the credential
-                                await _auth
-                                    .signInWithCredential(credential)
-                                    .then((val) {
-                                  HapticFeedback.lightImpact();
-                                  GetStorage().write('phone', widget.tempPhone);
-                                  GetStorage().write('isLoggedIn', true);
+                              if (widget.existing) {
+                                await Server.phoneSignIn(
+                                    context, widget.tempPhone!);
+                              } else {
+                                try {
+                                  // Sign the user in (or link) with the credential
+                                  await _auth
+                                      .signInWithCredential(credential)
+                                      .then((val) {
+                                    HapticFeedback.lightImpact();
+                                    GetStorage()
+                                        .write('phone', widget.tempPhone);
+                                    GetStorage().write('isLoggedIn', true);
 
+                                    CustomOverlay.showToast(
+                                        'You have successfully been logged in',
+                                        Colors.green,
+                                        Colors.white);
+                                    timer.cancel();
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Dashboard()));
+                                  });
+                                } on FirebaseAuthException catch (e) {
                                   CustomOverlay.showToast(
-                                      'You have successfully been logged in',
-                                      Colors.green,
+                                      'Something went wrong, please try again later',
+                                      Colors.red,
                                       Colors.white);
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Dashboard()));
-                                });
-                              } on FirebaseAuthException catch (e) {
-                                CustomOverlay.showToast(
-                                    'Something went wrong, please try again later',
-                                    Colors.red,
-                                    Colors.white);
+                                }
                               }
                             } else {
                               CustomOverlay.showToast(

@@ -1,17 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class TextBox extends StatefulWidget {
-  const TextBox({
+   TextBox({
     Key? key,
     this.isDate = false,
     this.obscureText = false,
+    this.isPhone = false,
+    this.isPassword = false,
     this.textType = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
     this.dataVerify,
     this.maxLength,
     this.focusNode,
+    this.suffix,
+    this.inputFormat,
     required this.title,
     required this.hintText,
     required this.textController,
@@ -19,27 +25,40 @@ class TextBox extends StatefulWidget {
 
   final TextEditingController textController;
   final String hintText;
-  final bool isDate, obscureText;
+   bool isDate, obscureText, isPhone, isPassword;
   final String title;
   final TextInputType textType;
-  final FormFieldValidator<String>? dataVerify;
+  final String? Function(String?)? dataVerify;
+
   final TextCapitalization textCapitalization;
   final FocusNode? focusNode;
   final int? maxLength;
+  final Widget? suffix;
+  final List<TextInputFormatter>? inputFormat;
 
   @override
   State<TextBox> createState() => _TextBoxState();
 }
 
 class _TextBoxState extends State<TextBox> {
+  bool obscureText = false;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.title,
-          style: TextStyle(fontFamily: 'Poppins', fontSize: 16.8.sp),
+        Row(
+          children: [
+            Text(
+              widget.title,
+              style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 19.sp),
+            ),
+            const Spacer(),
+            widget.suffix == null ? Container() : widget.suffix!
+          ],
         ),
         SizedBox(
           height: 6.h,
@@ -62,6 +81,12 @@ class _TextBoxState extends State<TextBox> {
             controller: widget.textController,
             keyboardType: widget.textType,
             focusNode: widget.focusNode,
+            inputFormatters: widget.inputFormat,
+            style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
+                fontSize: 20.sp,
+                color: const Color(0xff007981)),
             onTap: () async {
               if (widget.isDate) {
                 DateTime? pickedDate = await showDatePicker(
@@ -89,11 +114,23 @@ class _TextBoxState extends State<TextBox> {
               setState(() {});
             },
             decoration: InputDecoration(
+                suffixIcon: widget.isPassword
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            widget.obscureText = !widget.obscureText;
+                          });
+                        },
+                        child:obscureText? Icon(CupertinoIcons.eye): Icon(CupertinoIcons.eye_slash))
+                    : null,
                 counterText: '',
                 suffixText: widget.maxLength != null
                     ? '${widget.textController.text.length}/${widget.maxLength}'
+                    : null,
+                prefixText: widget.maxLength == 9 &&
+                        widget.textController.text.isNotEmpty
+                    ? '+256'
                     : '',
-                prefixText: widget.maxLength == 9 ? '+256' : '',
                 suffixStyle: const TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w800,
@@ -101,11 +138,15 @@ class _TextBoxState extends State<TextBox> {
                 prefixStyle: TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
-                    fontSize: 17.5.sp),
+                    fontSize: 19.sp),
                 hintText: widget.hintText,
-                hintStyle:
-                    TextStyle(fontSize: 15.sp, color: const Color(0xffBDBDBD)),
-                contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+                hintStyle: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20.sp,
+                ),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 30.w, vertical: 15),
                 border: InputBorder.none),
           ),
         ),

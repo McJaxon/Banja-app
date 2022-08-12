@@ -12,12 +12,11 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:banja/constants/strings.dart';
-import 'package:banja/controllers/loanDetailControllers.dart';
+import 'dart:developer';
+import 'package:banja/controllers/loan_detail_controllers.dart';
 import 'package:banja/models/loan_application_details_model.dart';
 import 'package:banja/screens/dashboard.dart';
 import 'package:banja/screens/success_screen.dart';
-import 'package:banja/services/local_db.dart';
 import 'package:banja/utils/customOverlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show HapticFeedback;
@@ -25,6 +24,8 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:banja/constants/constants.dart';
+import 'package:intl/intl.dart';
 
 enum Category {
   loanCategories,
@@ -94,6 +95,7 @@ class Server {
         GetStorage().write(
             'profilePic', json.decode(message.body)['payload']['profile_pic']);
         GetStorage().write('nin', json.decode(message.body)['payload']['nin']);
+        //  GetStorage().write('nidobn', json.decode(message.body)['payload']['nin']);
         GetStorage().write(
             'location', json.decode(message.body)['payload']['location']);
         GetStorage().write('phoneNumber',
@@ -107,6 +109,7 @@ class Server {
 // reset get state
         Get.reset();
       } else {
+        print(json.decode(message.body));
         if (json.decode(message.body)['errors'] == null) {
           CustomOverlay.showToast(json.decode(message.body)['errors'].first,
               Colors.red, Colors.white);
@@ -116,10 +119,42 @@ class Server {
         }
       }
     } catch (e) {
+      print(e.toString());
       CustomOverlay.showToast(
           'Something went wrong, try again later', Colors.red, Colors.white);
     }
     Get.back();
+  }
+
+  static sendLoanRequestNotification() async {
+    var headersList = {
+      'Accept': '*/*',
+      'Authorization': 'Bearer ${Secrets.fcmServerKey}',
+      'Content-Type': 'application/json'
+    };
+    var url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+
+    var body = {
+      "to": "/topics/new_loan_request",
+      "notification": {
+        "title": "Loan Request",
+        "body":
+            "New Loan Application Request from ${GetStorage().read('fullNames')} at ${DateFormat.yMEd().format(DateTime.now())}"
+      },
+      "data": {"msgId": "msg_12342"}
+    };
+    var req = http.Request('POST', url);
+    req.headers.addAll(headersList);
+    req.body = json.encode(body);
+
+    var res = await req.send();
+    final resBody = await res.stream.bytesToString();
+
+    if (res.statusCode >= 200 && res.statusCode < 300) {
+      print(resBody);
+    } else {
+      print(res.reasonPhrase);
+    }
   }
 
   ///user login
@@ -153,6 +188,7 @@ class Server {
         GetStorage().write('isLoggedIn', true);
         GetStorage().write('userHasProfileAlready', true);
         GetStorage().write('user_tag', json.decode(message.body)['tag']);
+        GetStorage().write('user_pin', json.decode(message.body)['pin']);
         GetStorage()
             .write('accessToken', json.decode(message.body)['access_token']);
         GetStorage()
@@ -214,6 +250,7 @@ class Server {
         GetStorage().write('isLoggedIn', true);
         GetStorage().write('userHasProfileAlready', true);
         GetStorage().write('user_tag', json.decode(message.body)['tag']);
+        GetStorage().write('user_pin', json.decode(message.body)['pin']);
         GetStorage()
             .write('accessToken', json.decode(message.body)['access_token']);
         GetStorage()
@@ -242,6 +279,94 @@ class Server {
         CustomOverlay.showToast(
             json.decode(message.body)['message'], Colors.red, Colors.white);
       }
+    } catch (e) {
+      CustomOverlay.showToast('Something went wrong', Colors.red, Colors.white);
+    }
+  }
+
+  ///user login
+  static Future createUserPIN(BuildContext context, String pin) async {
+    CustomOverlay.showLoaderOverlay(duration: 6);
+    try {
+      var request = http.MultipartRequest('POST', userPINUri)
+        ..fields.addAll(
+          {'user_id': GetStorage().read('userID').toString(), 'pin': pin},
+        );
+
+      ///clean up data before sending it
+      // ignore: avoid_single_cascade_in_expression_statements
+      request..fields.removeWhere((key, value) => value == '');
+
+      var response = await request.send();
+
+      final message = await http.Response.fromStream(response);
+
+      HapticFeedback.selectionClick();
+
+      print(message.body);
+      debugPrint('${response.statusCode}');
+
+      if (json.decode(message.body)['success'] == true) {
+        GetStorage()
+            .write('user_pin', json.decode(message.body)['payload']['pin']);
+
+        GetStorage()
+            .write('pin_id', json.decode(message.body)['payload']['id']);
+
+        CustomOverlay.showToast(
+            'PIN created successfully😊', Colors.green, Colors.white);
+
+        return json.decode(message.body)['success'];
+      } else {
+        CustomOverlay.showToast(
+            json.decode(message.body)['message'], Colors.red, Colors.white);
+      }
+    } catch (e) {
+      log(e.toString());
+      CustomOverlay.showToast('Something went wrong', Colors.red, Colors.white);
+    }
+  }
+
+  ///update loan category data
+  static Future updatePIN(var newPin) async {
+    CustomOverlay.showLoaderOverlay(duration: 6);
+
+    var pinID = GetStorage().read('pin_id') ?? 1;
+
+    try {
+      var headersList = {
+        'Authorization': 'Bearer $accessToken',
+        'Content-Type': 'application/json'
+      };
+      var url = Uri.parse('$baseUrl/settings/edit_pin/$pinID');
+
+      var body = {
+        'user_id': userID,
+        'pin': newPin,
+      };
+      var req = http.Request('PUT', url);
+      req.headers.addAll(headersList);
+      req.body = json.encode(body);
+
+      var res = await req.send();
+      final resBody = await res.stream.bytesToString();
+
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        if (json.decode(resBody)['success'] == true) {
+          CustomOverlay.showToast(
+              'PIN updated Successfully', Colors.green, Colors.white);
+          GetStorage()
+              .write('user_pin', json.decode(resBody)['payload']['pin']);
+        } else {
+          CustomOverlay.showToast(
+              json.decode(resBody)['message'], Colors.red, Colors.white);
+          Get.back();
+        }
+      } else {
+        print(res.reasonPhrase);
+      }
+
+      HapticFeedback.selectionClick();
     } catch (e) {
       CustomOverlay.showToast('Something went wrong', Colors.red, Colors.white);
     }
@@ -384,14 +509,13 @@ class Server {
       GetStorage().write('hasOngoingLoan', true);
       CustomOverlay.showToast(
           'Loan application successful!', Colors.green, Colors.white);
-      LocalDB.writeLoanApplicationDetails(loanApplicationDetails.toMap())
-          .then((value) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: ((context) =>
-                    SuccessScreen(loanDetails: loanApplicationDetails))));
-      });
+      sendLoanRequestNotification();
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: ((context) =>
+                  SuccessScreen(loanDetails: loanApplicationDetails))));
     } else {
       CustomOverlay.showToast('Something went wrong', Colors.red, Colors.white);
     }
@@ -406,7 +530,11 @@ class Server {
         headers: {"Authorization": 'Bearer $accessToken'});
 
     if (request.statusCode == 200) {
-      return json.decode(request.body);
+      if (json.decode(request.body)['payload'].isEmpty) {
+        return null;
+      } else {
+        return json.decode(request.body);
+      }
     } else {
       return null;
     }
@@ -447,6 +575,25 @@ class Server {
     } else {
       return null;
     }
+  }
+
+  static Future fetchAllFAQs() async {
+    HapticFeedback.selectionClick();
+
+    var request = http.MultipartRequest('GET', getFAQs)
+      ..headers.addAll({"Authorization": 'Bearer $accessToken'});
+
+    var response = await request.send();
+    final message = await http.Response.fromStream(response);
+
+    if (json.decode(message.body)['success'] == true) {
+      if (jsonDecode(message.body)['payload'].isNotEmpty) {
+        return json.decode(message.body);
+      } else {
+        return null;
+      }
+    }
+    return response;
   }
 
   Future fetchData(BuildContext context, String accessToken) async {

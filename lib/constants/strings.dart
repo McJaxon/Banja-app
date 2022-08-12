@@ -25,6 +25,19 @@ List workProfessions = [
   {"category": "Carpenter", "id": 5},
   {"category": "Shop keeper", "id": 6},
   {"category": "Saloon owner", "id": 7},
+  {"category": "Lawyer", "id": 8},
+  {"category": "Accountant", "id": 9},
+  {"category": "Electrician", "id": 10},
+  {"category": "Consultant", "id": 11},
+  {"category": "Engineer", "id": 12},
+  {"category": "Laborer", "id": 13},
+  {"category": "Commercial Banker", "id": 14},
+  {"category": "Pharmacist", "id": 15},
+  {"category": "Programmer", "id": 16},
+  {"category": "Dentist", "id": 17},
+  {"category": "Midwife", "id": 18},
+  {"category": "Research Analyst", "id": 19},
+  {"category": "Others", "id": 20},
 ];
 
 List gender = [
@@ -34,7 +47,11 @@ List gender = [
 
 List salaryScale = [
   {"category": "UGX10,000 - UGX50,000", "id": 1},
-  {"category": "UGX100,000 - UGX500,000", "id": 2},
+  {"category": "UGX100,000 - UGX200,000", "id": 2},
+  {"category": "UGX200,000 - UGX300,000", "id": 3},
+  {"category": "UGX300,000 - UGX400,000", "id": 4},
+  {"category": "UGX400,000 - UGX500,000", "id": 5},
+  {"category": "UGX500,000 and above", "id": 6},
 ];
 
 List haveLoans = [
@@ -63,6 +80,9 @@ Uri getTransactionTypes = Uri.parse('$baseUrl/settings/get_transaction_types');
 Uri getMyPaymentDetails =
     Uri.parse('$baseUrl/payments/get_user_payments/$userID');
 
+///get FAQ
+Uri getFAQs = Uri.parse('$baseUrl/settings/get_faqs');
+
 ///get loan categories
 Uri getUser = Uri.parse('$baseUrl/end_users');
 
@@ -74,6 +94,13 @@ Uri phoneSignInUri = Uri.parse('$baseUrl/user/phone_sign_in');
 
 ///create user tag
 Uri userTagUri = Uri.parse('$baseUrl/user/create_user_tag');
+
+///create user pin
+Uri userPINUri = Uri.parse('$baseUrl/settings/add_pin');
+
+///edit user pin
+Uri editUserPINUri = Uri.parse('$baseUrl/settings/edit_pin');
+
 
 ///get all loan categories
 Uri getAllLoanTypes = Uri.parse('$baseUrl/settings/get_all_loan_categories');

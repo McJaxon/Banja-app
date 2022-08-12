@@ -26,6 +26,16 @@ class DefaultFirebaseOptions {
         return ios;
       case TargetPlatform.macOS:
         return macos;
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -57,7 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '256955403295',
     projectId: 'banja22',
     storageBucket: 'banja22.appspot.com',
-    androidClientId: '256955403295-hks4ame3v9a02jg1cvseemv6mfr2ilqf.apps.googleusercontent.com',
+    androidClientId: '256955403295-4ubv8g7gcnns845o4ubl5ev7jugb06ia.apps.googleusercontent.com',
     iosClientId: '256955403295-8a4pq004a6h1p8kr60q0jlbjcqc8rm93.apps.googleusercontent.com',
     iosBundleId: 'com.example.banja',
   );
@@ -68,7 +78,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '256955403295',
     projectId: 'banja22',
     storageBucket: 'banja22.appspot.com',
-    androidClientId: '256955403295-hks4ame3v9a02jg1cvseemv6mfr2ilqf.apps.googleusercontent.com',
+    androidClientId: '256955403295-4ubv8g7gcnns845o4ubl5ev7jugb06ia.apps.googleusercontent.com',
     iosClientId: '256955403295-8a4pq004a6h1p8kr60q0jlbjcqc8rm93.apps.googleusercontent.com',
     iosBundleId: 'com.example.banja',
   );

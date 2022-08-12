@@ -1,4 +1,4 @@
-import 'package:banja/controllers/homePageController.dart';
+import 'package:banja/controllers/homepage_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +23,7 @@ class AuthPageHeader extends StatelessWidget {
             ? ClipPath(
                 clipper: LoginPageClipper(),
                 child: Container(
-                    height: 402.h,
+                    height: 432.h,
                     width: double.infinity,
                     decoration: const BoxDecoration(color: Color(0xff06919A))),
               )
@@ -37,11 +37,11 @@ class AuthPageHeader extends StatelessWidget {
                     padding: EdgeInsets.only(top: 90.h, left: 20.w),
                     child: Text(
                       heading,
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontFamily: 'Poppins',
                           color: Colors.white,
                           fontWeight: FontWeight.w300,
-                          fontSize: 26.0),
+                          fontSize: 30.sp),
                     ),
                   ),
                 ),

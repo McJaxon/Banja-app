@@ -1,0 +1,119 @@
+TUULA APP PRIVACY POLICY
+
+Effective date: 2022-07-12
+Updated on: 2022-07-12
+
+
+This privacy policy governs your use of the software application  (“Application”) for mobile devices that was created by . The Application is  Financial assist tool for quick and ease access to personal loans via your your mobile phone. At Tuula clients come first. We help individuals, families, institutions, and SME’s raise, manage, and distribute the capital they need to achieve their goals.
+We help people, businesses and institutions build, preserve, and manage wealth so they can pursue their financial goals.
+
+As a bridging financier, we target entrepreneurs, contractors, schools, importers, real estate developers, transporters, service providers, suppliers, and other viable clients.
+
+What information does the Application obtain and how is it used?
+
+When using our Service, you will be prompted to provide us with personal information used to contact or identify you. http://tuulacredit.com/ collects the following information:
+
+ * Usage Data
+ * Mobile Number
+ * Name
+ * Payment Information
+ * Home Address
+
+1. User Provided Information
+The Application obtains the information you provide when you download and register the Application. Registration with us is optional. However, please keep in mind that you may not be able to use some of the features offered by the Application unless you register with us.
+
+When you register with us and use the Application, you generally provide (a) your name, email address, age, user name, password and other registration information; (b) transaction-related information, such as when you make purchases, respond to any offers, or download or use applications from us; (c) information you provide us when you contact us for help; (d) credit card information for purchase and use of the Application, and; (e) information you enter into our system when using the Application, such as contact information and project management information.
+
+We may also use the information you provided us to contact your from time to time to provide you with important information, required notices and marketing promotions.
+
+2. Automatically Collected Information
+In addition, the Application may collect certain information automatically, including, but not limited to, the type of mobile device you use, your mobile devices unique device ID, the IP address of your mobile device, your mobile operating system, the type of mobile Internet browsers you use, and information about the way you use the Application.
+
+Does the Application collect precise real time location information of the device?
+This Application does not collect precise information about the location of your mobile device.
+
+Do third parties see and/or have access to information obtained by the Application?
+Only aggregated, anonymized data is periodically transmitted to external services to help us improve the Application and our service. We will share your information with third parties only in the ways that are described in this privacy statement.
+
+We may disclose User Provided and Automatically Collected Information:
+
+as required by law, such as to comply with a subpoena, or similar legal process;
+
+when we believe in good faith that disclosure is necessary to protect our rights, protect your safety or the safety of others, investigate fraud, or respond to a government request;
+
+with our trusted services providers who work on our behalf, do not have an independent use of the information we disclose to them, and have agreed to adhere to the rules set forth in this privacy statement.
+
+if Tuula Financial Services  is involved in a merger, acquisition, or sale of all or a portion of its assets, you will be notified via email and/or a prominent notice on our Web site of any change in ownership or uses of this information, as well as any choices you may have regarding this information.
+
+3. What are my opt-out rights?
+You can stop all collection of information by the Application easily by uninstalling the Application. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network. You can also request to opt-out via email, at .
+
+4. Data Retention Policy, Managing Your Information
+We will retain User Provided data for as long as you use the Application and for a reasonable time thereafter. We will retain Automatically Collected information for up to  and thereafter may store it in aggregate. If you’d like us to delete User Provided Data that you have provided via the Application, please contact us at and we will respond in a reasonable time. Please note that some or all of the User Provided Data may be required in order for the Application to function properly.
+
+5. Children
+We do not use the Application to knowingly solicit data from or market to children under the age of 13. If a parent or guardian becomes aware that his or her child has provided us with information without their consent, he or she should contact us at info@tuulacredit.com. We will delete such information from our files within a reasonable time.
+
+6. Security
+Confidentiality of your Personal Information is of utmost importance to us. We will use all reasonable efforts to protect and secure your Personal Information against access, collection, use or disclosure by unauthorised persons and against unlawful processing, accidental loss, destruction and damage or similar risks. Unfortunately, the transmission of information via the Internet is not completely secure.  We provide physical, electronic, and procedural safeguards to protect information we process and maintain. For example, we limit access to this information to authorized employees and contractors who need to know that information in order to operate, develop or improve our Application. Although we will do our best to protect your Personal Information, you acknowledge that we cannot guarantee the integrity and accuracy of any Personal Information which you transmit over the Internet, nor guarantee that such Personal Information would not be intercepted, accessed, disclosed, altered or destroyed by unauthorised third parties, due to factors beyond our control. You are responsible for keeping your Account details confidential and you must not share your password with anyone and you must always maintain the security of the Mobile Device that you use.
+
+7. Sharing of personal information which we collect
+ a. We may disclose to or share with Affiliates and other parties your Personal Information for any of the following purposes as well as for such other purposes as are permitted by Applicable Law (although we will in each such case always act reasonably and disclose or share no more Personal Information than what is required for the particular purpose):
+where required or authorised by Applicable Law (including but not limited to responding to regulatory enquiries, investigations or directives, or complying with statutory or regulatory filing and reporting requirements), for the purpose so specified in that Applicable Law; where there is any form of legal proceeding between you and us, or between you and another party, in connection with, or relating to the Service, for the purposes of that legal proceeding; in connection with, or during negotiations of, any merger, sale of company assets, consolidation or restructuring, financing or acquisition of all or a portion of our business by or into another company, for the purposes of such a transaction (even if the transaction is eventually not proceeded with); where we share your Personal Information with third parties (including Credit Reference Bureaus, Banks, Mobile Network Providers, collection agencies, our agents, vendors, suppliers, contractors, partners and any others who provide services to us, perform functions on our behalf, or whom we collaborate with), for or in connection with the purposes for which such third parties are engaged or the purposes of our collaboration with such third parties (as the case may be), which may include allowing such third parties to introduce or offer products or services to you, or other conducting activities including marketing, research, analysis and product development; where we share Personal Information with Affiliates, we will only do so for the purpose of them helping us to provide the App or to operate our business (including, where you have subscribed to our mailing list, for direct marketing purposes), or for the purpose of them conducting data processing on our behalf. For example, our Affiliate in another country may process and/or store your Personal Information on behalf of our group company in your country. All of our Affiliates are committed to processing the Personal Information that they receive from us in line with this Privacy Policy and Applicable Law; where we publish statistics relating to the use of the App and the Service, in which case all information will be aggregated and made anonymous; and when we believe in good faith that disclosure of your Personal Information is necessary to comply with Applicable Law, prevent physical harm or financial loss, report suspected illegal activity, or to investigate violations of our
+
+8. Terms of Use;
+b. Where it is not necessary for the Personal Information disclosed or shared with other parties to be associated with you, we will use reasonable endeavours to remove the means by which the Personal Information can be associated with you as an individual before disclosing or sharing such information.
+
+c. Other than as provided for in this Privacy Policy, we may disclose or share your Personal Information if we notify you of this in advance and we have obtained your consent for the disclosure or sharing.
+
+9. Cross-border transfers od personal information
+Your Personal Information may be transferred to, stored, used and processed in a jurisdiction other than your home nation or otherwise in the country, state and city in which you are present while using any Service provided by us ("Alternate Country").
+In such a case, We shall ensure that such Personal Information remains subject to a level of protection comparable to what is required under the Uganda Laws (and, in any event, in line with our commitments in this Privacy Policy). You understand and hereby consent to the transfer of your Personal Information out of your home nation or Alternate Country as described herein.
+
+10.  Access and update/correction of personal information
+a. You may request us for access to and/or the correction of your Personal Information in our possession and control, by contacting us at the details provided below. Subject to Applicable Law, we reserve the right to charge an administrative fee for such requests.
+
+b. We reserve the right to refuse your requests for access to, or to correct, some or all of your Personal Information in our possession or control, if permitted or required under any Applicable Law. This may include circumstances where the Personal Information may contain references to other individuals or where the request for access or request to correct is for reasons which we reasonably consider to be trivial, frivolous or vexatious.
+
+11.  Where we store your personal information
+a. The Personal Information that we collect from you may be stored at, transferred to, or processed by third party service providers. We will use all reasonable endeavours to ensure that all such third party service providers provide a level of protection that is comparable to our commitments under this Privacy Policy.
+
+b. Your Personal Information may also be stored or processed outside of your country by personnel who work for us in other countries, or by our third party service providers, suppliers, contractors or Affiliates, to the extent permitted under Applicable law. In such a case, we will ensure that such Personal Information remains subject to a level of protection comparable to what is required under the laws of your country (and, in any event, in line with our commitments in this Privacy Policy).
+
+12.  Changes to this privacy policy
+We may review and amend this Privacy Policy at our
+sole discretion from time to time, to ensure that it is consistent with our future developments, and/or changes in legal or regulatory requirements. If we decide to amend this Privacy Policy, we will notify you of any such amendments by means of a general notice published on the App, or otherwise to your e-mail address set out in your Account. You agree that it is your responsibility to review this Privacy Policy regularly for the latest information on our data processing and data protection practices, and that your continued use of the App or Website, communications with us, or access to and use of the Service following any amendments to this Privacy Policy will constitute your acceptance to the amendments.
+
+13.  Acknowledgement and Consent
+a. By accepting the Privacy Policy, you acknowledge that you have read and understood this Privacy Policy and you accept all of its terms. In particular, you agree and consent to us collecting, using, disclosing, storing, transferring, or otherwise processing your Personal Information in accordance with this Privacy Policy.
+
+b. In circumstances where you provide us with Personal Information relating to other individuals (such as Personal Information relating to your spouse, family members, friends or emergency contact), you represent and warrant that you have obtained such individual's consent for, and hereby consent on behalf of such individual to, the collection, use, disclosure and processing of his/her Personal Information by us.
+
+c. You also consent and expressly authorise use to contact you and your emergency contact who has expressly agreed upon it, to verify your information or when we are unable to contact you via other methods or when we have not received your payment in connection with Loan.
+
+d. You may withdraw your consent to any or all collection, use or disclosure of your Personal Information at any time by giving us reasonable notice in writing using the contact details stated below. You may also withdraw your consent for us to send you certain communications and information via any "opt-out" or "unsubscribe" facility contained in our messages to you. Depending on the circumstances and the nature of the consent which you are withdrawing, you must understand and acknowledge that after such withdrawal of consent, you may no longer be able to use the App or certain of the Service. A withdrawal of consent by you may result in the termination of your Account or of your contractual relationship with us, with all accrued rights and obligations remaining fully reserved. Upon receipt of your notice to withdraw consent for any collection, use or disclosure of your Personal Information, we will inform you of the likely consequences of such withdrawal so that you can decide if indeed you wish to withdraw consent.
+
+14.  Marketing and promotional material
+a. We may send you marketing and promotional communications via post, telephone call, short message service (SMS), e-mail, online messaging, or push notifications via the App to notify you about special privileges, promotions, or events offered or organised by us, our partners, sponsors, or advertisers, or to provide updates on our App and/or the products and services offered therein.
+
+b. You may opt out from receiving such marketing communications at any time by clicking on any "unsubscribe" facility embedded in the relevant message, or otherwise contacting us using the contact details stated below. Please note that if you opt out, we may still send you non-promotional messages, such as Loan disbursement or repayment receipts, or information about your Account or the App.
+
+15. Third part websites
+a. The App may contain links to websites that are operated by third parties. We do not control nor accept liability or responsibility for these websites and for the collection, use, maintenance, sharing, or disclosure of data and information by such third parties. Please consult the terms and conditions and privacy policies of those third party websites to find out how they collect and use your Personal Information.
+
+b. Advertisements contained on our App operate as links to the advertiser's website and as such any information they collect by virtue of your clicking on that link will be collected and used by the relevant advertiser in accordance with the privacy policy of that advertiser.
+
+16. Limitation of liability
+We shall not be liable for any indirect, incidental, consequential, special, exemplary or punitive damages arising out of:
+
+a. Your use of or reliance on the App or your inability you provide photos of your ID and yourself holding your ID. SMS We may collect your financial transaction sms which includes name of transacting party, a description of the transaction and transaction amount for the purpose of performing a credit risk assessment. This credit risk assessment enables faster and quicker loan disbursal.No personal sms are accessed, read or collected. Call log We may collect your call log to to be able to confirm that you are using your mobile phone to install our application and receive our dynamic password verification on the same machine.specifically, we will verify your device by making a call, and check your call history to see if you have received the call.this makes your credit more reliable and access to faster loan services. we will not monitor, read, store or share any private call data. We will ensure that your data is protected to a strict standard.
+
+17. Contact us
+If you have any questions regarding privacy while using the Application, or have questions about our practices, please contact us via email at info@tuulacredit.com.
+Telephone
++256 782 920 587
++256 757 642 885
++256 701 530 658
+
+Plot 1200 Old Port Bell Road, Kitante
+2nd Floor Hardware World Mall

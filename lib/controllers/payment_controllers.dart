@@ -2,7 +2,7 @@ import 'package:banja/constants/secrets.dart';
 import 'package:banja/models/loan_application_details_model.dart';
 import 'package:banja/services/server.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterwave/core/flutterwave.dart';
+import 'package:flutterwave/flutterwave.dart';
 import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,7 +16,7 @@ class PaymentController extends GetxController {
       var transactionRef = 'txf-' + customAlphabet('1234567890abcdef', 10);
 
       Flutterwave flutterwave = Flutterwave.forUIPayment(
-        isMobileMoney: true,
+     //   isMobileMoney: true,
         context: context,
         encryptionKey: Secrets.flutterwaveEncryptionKey,
         publicKey: Secrets.flutterwavePublicKey,
@@ -58,7 +58,7 @@ class PaymentController extends GetxController {
       var transactionRef = 'txf-' + customAlphabet('1234567890abcdef', 10);
 
       Flutterwave flutterwave = Flutterwave.forUIPayment(
-          isMobileMoney: false,
+    //      isMobileMoney: false,
           context: context,
           encryptionKey: Secrets.flutterwaveEncryptionKey,
           publicKey: Secrets.flutterwavePublicKey,

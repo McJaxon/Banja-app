@@ -48,7 +48,7 @@ class GetImagePath {
         .ref()
         .child('clientBase/$phone');
 
-    storageReference.putFile(imageFile);
+    await storageReference.putFile(imageFile);
 
     _uploadedFileURL = await storageReference.getDownloadURL();
     return _uploadedFileURL;

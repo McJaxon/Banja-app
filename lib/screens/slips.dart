@@ -1,4 +1,4 @@
-import 'package:banja/controllers/homePageController.dart';
+import 'package:banja/controllers/homepage_controller.dart';
 import 'package:banja/services/server.dart';
 import 'package:intl/intl.dart';
 import '../shared/shared.dart';
@@ -55,7 +55,7 @@ class _SlipsPageState extends State<Slips> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const LoadingData();
                 } else if (snapshot.hasError) {
-                  
+
                   return const NetworkError();
                 } else if (snapshot.data == null) {
                   return const NoRecordError();

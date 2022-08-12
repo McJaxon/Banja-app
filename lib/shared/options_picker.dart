@@ -24,9 +24,12 @@ class _OptionsPickerState extends State<OptionsPicker> {
       children: [
         Text(
           widget.title,
-          style: TextStyle(fontFamily: 'Poppins', fontSize: 16.8.sp),
+          style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+              fontSize: 19.sp),
         ),
-         SizedBox(
+        SizedBox(
           height: 6.h,
         ),
         Container(
@@ -47,8 +50,7 @@ class _OptionsPickerState extends State<OptionsPicker> {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w400,
-                  fontSize: 14.sp,
-                  //color: const Color(0xff007981)
+                  fontSize: 20.sp,
                 ),
               ),
               icon: const RotatedBox(

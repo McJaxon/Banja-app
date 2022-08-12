@@ -1,4 +1,4 @@
-import 'package:banja/controllers/homePageController.dart';
+import 'package:banja/controllers/homepage_controller.dart';
 import 'package:banja/services/server.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

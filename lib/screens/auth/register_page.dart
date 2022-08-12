@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:banja/constants/styles.dart';
-import 'package:banja/controllers/authControllers.dart';
-import 'package:banja/controllers/userDetailsController.dart';
+import 'package:banja/controllers/auth_controller.dart';
+import 'package:banja/controllers/user_detail_controller.dart';
 import 'package:banja/models/loan_application_details_model.dart';
 import 'package:banja/screens/auth/phone_otp.dart';
 import 'package:banja/services/server.dart';
@@ -44,10 +44,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
-       Timer.run(() {
-        // ignore: void_checks
-        return authController.showPolicyDialog(context);
-      });
+    Timer.run(() {
+      // ignore: void_checks
+      return authController.showPolicyDialog(context);
+    });
     authController.nationalIDFocus.addListener(() {
       if (authController.nationalIDFocus.hasFocus) {
         authController.trigger(true);
@@ -108,9 +108,10 @@ class _RegisterPageState extends State<RegisterPage> {
           height: 30.h,
         ),
         TextBox(
+
           textType: TextInputType.text,
           textCapitalization: TextCapitalization.characters,
-          dataVerify: FieldValidator.validateNIN,
+          // dataVerify: FieldValidator.validateNIN,
           maxLength: 14,
           focusNode: authController.nationalIDFocus,
           textController: authController.nationalID,
@@ -160,7 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ? Column(children: [
                 TextBox(
                   textType: TextInputType.text,
-                  dataVerify: FieldValidator.validateEmail,
+                  // dataVerify: FieldValidator.validateEmail,
                   focusNode: authController.emailFocus,
                   textController: authController.emailAddress,
                   title: 'Email Address',
@@ -172,7 +173,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 TextBox(
                   obscureText: true,
                   textType: TextInputType.text,
-                  dataVerify: FieldValidator.validatePassword,
+                  // dataVerify: FieldValidator.validatePassword,
+
+                                            isPassword: true,
                   focusNode: authController.passwordFocus,
                   textController: authController.password,
                   title: 'Password',
@@ -180,6 +183,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ])
             : TextBox(
+
                 textType: TextInputType.phone,
                 maxLength: 9,
                 dataVerify: FieldValidator.validatePhone,
@@ -286,7 +290,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(vertical: 0.h, horizontal: 20.h),
+                        EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.h),
                     child: Align(
                         alignment: Alignment.bottomCenter,
                         child: Column(
@@ -303,7 +307,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       child: Text(
                                         LoginTypes.newUser == loginType
                                             ? 'Register'
-                                            : 'Sign in',
+                                            : 'Sign In',
                                         style: TextStyle(
                                             fontFamily: 'Poppins',
                                             fontSize: 23.sp,
@@ -342,7 +346,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         } else if (phoneType ==
                                             LoginTypes.emailPassword) {
                                           if (authController.emailAddress.text
-                                                  .isNotEmpty ||
+                                                  .isNotEmpty &&
                                               authController
                                                   .password.text.isNotEmpty) {
                                             if (validateAndSave()) {
@@ -366,10 +370,25 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   .phoneNumber.text.length ==
                                               9) {
                                             if (validateAndSave()) {
-                                              await Server.phoneSignIn(
+                                              authController.phoneAuth(context,
+                                                  existing: true);
+                                              await Future.delayed(
+                                                  const Duration(seconds: 6));
+                                              Navigator.push(
                                                   context,
-                                                  authController
-                                                      .phoneNumber.text);
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          PhoneOTP(
+                                                            existing: true,
+                                                            verificationId:
+                                                                authController
+                                                                    .verificationId
+                                                                    .value,
+                                                            tempPhone:
+                                                                authController
+                                                                    .phoneNumber
+                                                                    .text,
+                                                          )));
                                             } else {
                                               CustomOverlay.showToast(
                                                   'Type in Correct phone',

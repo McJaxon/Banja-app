@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>256955403295-8a4pq004a6h1p8kr60q0jlbjcqc8rm93.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.256955403295-8a4pq004a6h1p8kr60q0jlbjcqc8rm93</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>256955403295-4ubv8g7gcnns845o4ubl5ev7jugb06ia.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCOKtn0MbU7HTDcdu8FQ5VgfYG5Fv9Tw6E</string>
+	<key>GCM_SENDER_ID</key>
+	<string>256955403295</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.banja</string>
+	<key>PROJECT_ID</key>
+	<string>banja22</string>
+	<key>STORAGE_BUCKET</key>
+	<string>banja22.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:256955403295:ios:2652b3b7a177823bcb992a</string>
+</dict>
+</plist>

@@ -1,7 +1,5 @@
-import 'package:banja/controllers/homePageController.dart';
-import 'package:banja/controllers/loanDetailControllers.dart';
-import 'package:banja/controllers/payment_controllers.dart';
-import 'package:banja/controllers/userDetailsController.dart';
+
+import 'package:banja/controllers/controllers.dart';
 import 'package:banja/services/server.dart';
 import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../controllers/payment_controllers.dart';
 import '/shared/shared.dart';
 
 class MakeDeposit extends StatefulWidget {

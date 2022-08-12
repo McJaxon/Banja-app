@@ -54,7 +54,7 @@ class CustomOverlay {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: textColor,
-                        fontSize: 15.sp,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins'),
                   ),

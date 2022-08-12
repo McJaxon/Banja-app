@@ -3,13 +3,14 @@ import 'package:banja/screens/dashboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:ticketview/ticketview.dart';
-import '../controllers/loanDetailControllers.dart';
+import '../controllers/loan_detail_controllers.dart';
 
 class SuccessScreen extends StatefulWidget {
   const SuccessScreen({Key? key, required this.loanDetails}) : super(key: key);
@@ -312,10 +313,15 @@ class _SuccessScreenState extends State<SuccessScreen> {
                               'Go Home',
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               HapticFeedback.lightImpact();
-                              Get.to(() => const Dashboard());
-                              //paymentController.updateDetails();
+
+                              await Get.deleteAll(force: true);
+                              // restart app
+                              Phoenix.rebirth(Get.context!);
+                              // reset get state
+                              Get.reset();
+
                             },
                           ),
                         ),

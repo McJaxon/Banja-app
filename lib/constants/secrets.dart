@@ -9,4 +9,7 @@ class Secrets {
 
   ///Flutterwave Secret Key
   static const String flutterwaveEncryptionKey = '0f90d77518665a94694b25f2';
+
+  static const String fcmServerKey =
+      'AAAAO9O8TB8:APA91bHzb2T_qUiAPjv4Lv3GbRxSW3lol_XMb92MPaMwYYjYUJgfTatZSy_yUIC7dcpUgjXp401FlMfd4R1bZK6E0oxVlBbjwNKJTQfxmx97AlPFYQ-ayfZ44AuHqrFO47CCbWfiajhZ';
 }
