@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
                 builder: (context, widget) {
                   return MediaQuery(
                     //Setting font does not change with system font size
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 0.93),
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 0.96),
                     child: widget!,
                   );
                 },

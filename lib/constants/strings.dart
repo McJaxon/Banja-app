@@ -95,12 +95,15 @@ Uri phoneSignInUri = Uri.parse('$baseUrl/user/phone_sign_in');
 ///create user tag
 Uri userTagUri = Uri.parse('$baseUrl/user/create_user_tag');
 
+///verify tag
+Uri verifyUserTag = Uri.parse(
+    'http://tuulacredit.com/jubilant-waddle/public/api/v1/user/verify_tag');
+
 ///create user pin
 Uri userPINUri = Uri.parse('$baseUrl/settings/add_pin');
 
 ///edit user pin
 Uri editUserPINUri = Uri.parse('$baseUrl/settings/edit_pin');
-
 
 ///get all loan categories
 Uri getAllLoanTypes = Uri.parse('$baseUrl/settings/get_all_loan_categories');

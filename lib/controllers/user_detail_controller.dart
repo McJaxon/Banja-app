@@ -7,6 +7,7 @@ import 'package:banja/utils/customOverlay.dart';
 import 'package:banja/utils/file_picker.dart';
 import 'package:banja/utils/form_validators.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -78,7 +79,7 @@ class UserDetailsController extends GetxController {
               return false;
             },
             child: Padding(
-              padding: EdgeInsets.fromLTRB(15.0, 20.0, 15.w, 15.h),
+              padding: EdgeInsets.fromLTRB(15.w, 20.0, 15.w, 15.h),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.9,
                 child: Stack(
@@ -89,7 +90,7 @@ class UserDetailsController extends GetxController {
                           'Finish Creating your\nProfile,',
                           style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 30.sp,
+                              fontSize: 35.sp,
                               fontWeight: FontWeight.w700),
                         ),
                         const Spacer(),
@@ -97,7 +98,7 @@ class UserDetailsController extends GetxController {
                     ),
                     Positioned(
                       top: 65.h,
-                      right: 20.w,
+right: 0.0,
                       child: Obx(() {
                         return Text(
                           'Page $pageCount/3',
@@ -111,9 +112,9 @@ class UserDetailsController extends GetxController {
                         top: 115.h,
                       ),
                       child: Text(
-                        'This information helps to finish creating your profile, and then you can continue to use the services of the application  ',
+                        'This information helps in creating your profile, and then you can continue to use the services of the application  ',
                         style:
-                            TextStyle(fontFamily: 'Poppins', fontSize: 17.sp),
+                            TextStyle(fontFamily: 'Poppins', fontSize: 20.sp),
                       ),
                     ),
                     Padding(
@@ -289,6 +290,7 @@ class UserDetailsController extends GetxController {
                                         physics: const BouncingScrollPhysics(),
                                         children: [
                                           TextBox(
+                                            prefixIcon: const Icon(CupertinoIcons.shield),
                                             title: 'Type password',
                                             obscureText: true,
                                             isPassword: true,
@@ -302,6 +304,7 @@ class UserDetailsController extends GetxController {
                                             height: 20.h,
                                           ),
                                           TextBox(
+                                            prefixIcon: const Icon(CupertinoIcons.shield),
                                             title: 'Retype password',
                                             obscureText: true,
                                             isPassword: true,
@@ -898,7 +901,7 @@ class UserDetailsController extends GetxController {
 // }
 
 class BioDataForm extends StatefulWidget {
-  BioDataForm({
+  const BioDataForm({
     Key? key,
     required TextEditingController fullNames,
     required TextEditingController emailAddress,
@@ -952,6 +955,7 @@ class _BioDataFormState extends State<BioDataForm> {
         physics: const BouncingScrollPhysics(),
         children: [
           TextBox(
+            prefixIcon: const Icon(CupertinoIcons.person),
             title: 'What is your full name ?',
             textController: widget._fullNames,
             textType: TextInputType.text,
@@ -962,6 +966,7 @@ class _BioDataFormState extends State<BioDataForm> {
             height: 20.h,
           ),
           TextBox(
+            prefixIcon: const Icon(CupertinoIcons.calendar),
             isDate: true,
             title: 'What is your date of birth ?',
             textController: widget._dateOfBirth,
@@ -995,6 +1000,7 @@ class _BioDataFormState extends State<BioDataForm> {
             height: 20.h,
           ),
           TextBox(
+            prefixIcon: const Icon(CupertinoIcons.mail),
             title: 'What is your email address ?',
             textController: widget._emailAddress,
             textType: TextInputType.emailAddress,
@@ -1005,6 +1011,7 @@ class _BioDataFormState extends State<BioDataForm> {
             height: 20.h,
           ),
           TextBox(
+            prefixIcon: const Icon(CupertinoIcons.location),
             title: 'What is your location ?',
             textController: widget._location,
             textType: TextInputType.text,
@@ -1120,7 +1127,7 @@ class _EmploymentDataFormState extends State<EmploymentDataForm> {
                       style: TextStyle(
                         fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
-                          fontSize: 16.0,
+                          fontSize: 16.sp,
                           color: const Color(0xff007981)),
                     ),
                     value: e['category']))
@@ -1158,6 +1165,7 @@ class _EmploymentDataFormState extends State<EmploymentDataForm> {
             height: 20.h,
           ),
           TextBox(
+            prefixIcon: const Icon(CupertinoIcons.question),
             title: 'What is the purpose of this loan ?',
             textController: widget._loanPurpose,
             textType: TextInputType.text,

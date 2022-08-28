@@ -108,10 +108,10 @@ class _RegisterPageState extends State<RegisterPage> {
           height: 30.h,
         ),
         TextBox(
-
           textType: TextInputType.text,
           textCapitalization: TextCapitalization.characters,
           // dataVerify: FieldValidator.validateNIN,
+          prefixIcon: const Icon(CupertinoIcons.creditcard),
           maxLength: 14,
           focusNode: authController.nationalIDFocus,
           textController: authController.nationalID,
@@ -122,17 +122,19 @@ class _RegisterPageState extends State<RegisterPage> {
           height: 22.h,
         ),
         TextBox(
+          prefixIcon: const Icon(CupertinoIcons.number),
           textType: TextInputType.text,
           maxLength: 6,
           focusNode: authController.referralIDFocus,
           textController: authController.referralID,
           title: 'Referral ID',
-          hintText: 'enter referral ID - optional',
+          hintText: 'enter referral ID',
         ),
         SizedBox(
           height: 22.h,
         ),
         TextBox(
+          prefixIcon: const Icon(CupertinoIcons.phone),
           textType: TextInputType.phone,
           maxLength: 9,
           dataVerify: FieldValidator.validatePhone,
@@ -160,6 +162,7 @@ class _RegisterPageState extends State<RegisterPage> {
         LoginTypes.phoneOnly != phoneType
             ? Column(children: [
                 TextBox(
+                  prefixIcon: const Icon(CupertinoIcons.mail),
                   textType: TextInputType.text,
                   // dataVerify: FieldValidator.validateEmail,
                   focusNode: authController.emailFocus,
@@ -171,11 +174,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 22.h,
                 ),
                 TextBox(
+                  prefixIcon: const Icon(CupertinoIcons.shield),
                   obscureText: true,
                   textType: TextInputType.text,
                   // dataVerify: FieldValidator.validatePassword,
 
-                                            isPassword: true,
+                  isPassword: true,
                   focusNode: authController.passwordFocus,
                   textController: authController.password,
                   title: 'Password',
@@ -183,7 +187,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ])
             : TextBox(
-
+                prefixIcon: const Icon(CupertinoIcons.phone),
                 textType: TextInputType.phone,
                 maxLength: 9,
                 dataVerify: FieldValidator.validatePhone,
@@ -290,7 +294,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.h),
+                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.h),
                     child: Align(
                         alignment: Alignment.bottomCenter,
                         child: Column(
@@ -323,22 +327,44 @@ class _RegisterPageState extends State<RegisterPage> {
                                         }
 
                                         if (LoginTypes.newUser == loginType) {
-                                          if (authController
+                                          if (
+                                            authController.referralID.text.isNotEmpty &&
+                                            authController
                                                       .nationalID.text.length ==
                                                   14 &&
                                               authController.phoneNumber.text
                                                       .length ==
                                                   9) {
                                             if (validateAndSave()) {
-                                              GetStorage().write(
-                                                  'nin',
-                                                  authController
-                                                      .nationalID.value.text);
-                                              authController.phoneAuth(context);
+                                              ////
+                                              Server.verifyTag(
+                                                      context,
+                                                      authController
+                                                          .referralID.text
+                                                          .trim())
+                                                  .then(
+                                                (value) {
+                                                  if (value) {
+                                                    GetStorage().write(
+                                                        'nin',
+                                                        authController
+                                                            .nationalID
+                                                            .value
+                                                            .text);
+                                                    authController
+                                                        .phoneAuth(context);
+                                                  } else {
+                                                    CustomOverlay.showToast(
+                                                        'The referral ID provided does not exit',
+                                                        Colors.orange[900]!   ,
+                                                        Colors.white);
+                                                  }
+                                                },
+                                              );
                                             }
                                           } else {
                                             CustomOverlay.showToast(
-                                              'Enter NIN and correct phone number to continue',
+                                              'Fill all fields to continue',
                                               Colors.red,
                                               Colors.white,
                                             );
@@ -419,9 +445,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       : 'Don\'t have an account, sign up',
                                   style: textButtonStyle,
                                 )),
-                            SizedBox(
-                              height: 5.h,
-                            )
+
                           ],
                         )),
                   )

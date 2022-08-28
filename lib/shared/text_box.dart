@@ -1,3 +1,4 @@
+import 'package:banja/utils/customOverlay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class TextBox extends StatefulWidget {
-   TextBox({
+  TextBox({
     Key? key,
     this.isDate = false,
     this.obscureText = false,
@@ -18,6 +19,7 @@ class TextBox extends StatefulWidget {
     this.focusNode,
     this.suffix,
     this.inputFormat,
+    required this.prefixIcon,
     required this.title,
     required this.hintText,
     required this.textController,
@@ -25,7 +27,8 @@ class TextBox extends StatefulWidget {
 
   final TextEditingController textController;
   final String hintText;
-   bool isDate, obscureText, isPhone, isPassword;
+  final Icon prefixIcon;
+  bool isDate, obscureText, isPhone, isPassword;
   final String title;
   final TextInputType textType;
   final String? Function(String?)? dataVerify;
@@ -92,8 +95,8 @@ class _TextBoxState extends State<TextBox> {
                 DateTime? pickedDate = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime(1930),
-                    lastDate: DateTime(2023));
+                    firstDate: DateTime(1952),
+                    lastDate: DateTime.now());
                 if (pickedDate != null) {
                   //pickedDate output format => 2021-03-10 00:00:00.000
                   String formattedDate =
@@ -102,8 +105,16 @@ class _TextBoxState extends State<TextBox> {
                   //you can implement different kind of Date Format here according to your requirement
 
                   setState(() {
-                    widget.textController.text =
-                        formattedDate; //set output date to TextField value.
+                    if ((DateTime.now().year - pickedDate.year) < 18) {
+                      CustomOverlay.showToast(
+                          'Your must be of eligible age (18yrs)',
+                          Colors.blue,
+                          Colors.white);
+                      widget.textController.clear();
+                    } else {
+                      widget.textController.text = formattedDate;
+                    }
+                    //set output date to TextField value.
                   });
                 } else {
                   print("Date is not selected");
@@ -114,6 +125,7 @@ class _TextBoxState extends State<TextBox> {
               setState(() {});
             },
             decoration: InputDecoration(
+                prefixIcon: widget.prefixIcon,
                 suffixIcon: widget.isPassword
                     ? GestureDetector(
                         onTap: () {
@@ -121,7 +133,9 @@ class _TextBoxState extends State<TextBox> {
                             widget.obscureText = !widget.obscureText;
                           });
                         },
-                        child:obscureText? Icon(CupertinoIcons.eye): Icon(CupertinoIcons.eye_slash))
+                        child: obscureText
+                            ? const Icon(CupertinoIcons.eye)
+                            : const Icon(CupertinoIcons.eye_slash))
                     : null,
                 counterText: '',
                 suffixText: widget.maxLength != null

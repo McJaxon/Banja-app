@@ -134,6 +134,7 @@ class _LoanDetailState extends State<LoanDetail> {
                       child: Form(
                         key: formKey,
                         child: TextBox(
+                          prefixIcon: const Icon(Icons.money),
                             dataVerify: (value) {
                               return FieldValidator.validateLoanAmount(
                                   value,

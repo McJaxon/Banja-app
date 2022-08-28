@@ -21,7 +21,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
-  var userDetails = Get.put( UserDetailsController());
+  var userDetails = Get.put(UserDetailsController());
   var loanDetails = Get.put(LoanDetailController());
   var homeController = Get.put(HomePageController());
 
@@ -90,6 +90,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   } else if (snapshot.data == null) {
                     return const NetworkError();
                   } else {
+                    print(snapshot.data);
                     return PageView(
                       physics: const NeverScrollableScrollPhysics(),
                       controller: homeController.pageController,
@@ -97,15 +98,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         Stack(
                           children: [
                             DashTopPart(
-                              data: snapshot.data[1],
+                              data: snapshot.data[1] ?? snapshot.data[1],
                               onClick: () {
                                 homeController.sliderKey.currentState?.toggle();
 
                                 HapticFeedback.lightImpact();
                               },
-                              notifyTap: () {
-
-                              },
+                              notifyTap: () {},
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 445.h),
@@ -120,7 +119,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                             const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         itemCount:
-                                            snapshot.data[0]['payload'].length,
+                                            snapshot.data[0]?['payload'].length ?? 0,
                                         itemBuilder: (context, index) {
                                           return Padding(
                                             padding: EdgeInsets.symmetric(

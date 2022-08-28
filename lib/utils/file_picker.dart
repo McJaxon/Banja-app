@@ -41,6 +41,7 @@ class GetImagePath {
 
   static String _uploadedFileURL = '';
   static Future<String> uploadFile(File imageFile) async {
+    
     var preference = GetStorage();
     var phone = preference.read('phone');
     firebase_storage.Reference storageReference = firebase_storage

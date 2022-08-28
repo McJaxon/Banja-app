@@ -373,6 +373,35 @@ class Server {
   }
 
   ///user login
+  static Future verifyTag(BuildContext context, String tag) async {
+    CustomOverlay.showLoaderOverlay(duration: 6);
+    try {
+      var request = http.MultipartRequest('POST', verifyUserTag)
+        ..fields.addAll(
+          {'tag': tag},
+        );
+
+      ///clean up data before sending it
+      // ignore: avoid_single_cascade_in_expression_statements
+      request..fields.removeWhere((key, value) => value == '');
+
+      var response = await request.send();
+
+      final message = await http.Response.fromStream(response);
+
+      HapticFeedback.selectionClick();
+
+      CustomOverlay.showToast(
+          json.decode(message.body)['message'], Colors.green, Colors.white);
+
+      return json.decode(message.body)['success'];
+    } catch (e) {
+      print(e);
+      CustomOverlay.showToast('Something went wrong', Colors.red, Colors.white);
+    }
+  }
+
+  ///user login
   static Future createUserTag(BuildContext context, String tag) async {
     CustomOverlay.showLoaderOverlay(duration: 6);
     try {
@@ -530,6 +559,7 @@ class Server {
         headers: {"Authorization": 'Bearer $accessToken'});
 
     if (request.statusCode == 200) {
+      print(json.decode(request.body));
       if (json.decode(request.body)['payload'].isEmpty) {
         return null;
       } else {
@@ -541,29 +571,35 @@ class Server {
   }
 
   static Future fetchTransactions() async {
-    var request = http.MultipartRequest('GET', getTransactionTypes)
-      ..headers.addAll({"Authorization": 'Bearer $accessToken'});
+    var request = await http.get(getTransactionTypes,
+        headers: {"Authorization": 'Bearer $accessToken'});
 
-    var response = await request.send();
-    final message = await http.Response.fromStream(response);
-
-    if (json.decode(message.body)['success'] == true) {
-      return json.decode(message.body)['payload'];
+    if (request.statusCode == 200) {
+      print(json.decode(request.body));
+      if (json.decode(request.body)['payload'].isEmpty) {
+        return null;
+      } else {
+        return json.decode(request.body);
+      }
+    } else {
+      return null;
     }
-    return response;
   }
 
   static Future fetchAllLoanCategories() async {
-    var request = http.MultipartRequest('GET', getAllLoanTypes)
-      ..headers.addAll({"Authorization": 'Bearer $accessToken'});
+    var request = await http.get(getAllLoanTypes,
+        headers: {"Authorization": 'Bearer $accessToken'});
 
-    var response = await request.send();
-    final message = await http.Response.fromStream(response);
-
-    if (json.decode(message.body)['success'] == true) {
-      return json.decode(message.body);
+    if (request.statusCode == 200) {
+      print(json.decode(request.body));
+      if (json.decode(request.body)['payload'].isEmpty) {
+        return null;
+      } else {
+        return json.decode(request.body);
+      }
+    } else {
+      return null;
     }
-    return response;
   }
 
   static Future fetchMyPaymentDetails() async {

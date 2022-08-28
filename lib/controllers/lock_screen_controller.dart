@@ -189,6 +189,7 @@ class LockScreenController extends GetxController {
                       child: Column(
                         children: [
                           TextBox(
+                            prefixIcon: const Icon(CupertinoIcons.creditcard),
                               maxLength: 14,
                               textType: TextInputType.text,
                               textCapitalization: TextCapitalization.characters,
@@ -201,6 +202,7 @@ class LockScreenController extends GetxController {
                           ),
                           TextBox(
                               // dataVerify: FieldValidator.validatePhone,
+                              prefixIcon: const Icon(CupertinoIcons.phone),
                               title: 'What is your phone number?',
                               maxLength: 9,
                               hintText: '',

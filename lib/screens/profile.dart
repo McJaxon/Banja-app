@@ -300,7 +300,7 @@ class _ProfilePageState extends State<ProfilePage>
                             ),
                             const Spacer(),
                             Text(
-                              'v2.1.0',
+                              'v2.1.5',
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w300,
