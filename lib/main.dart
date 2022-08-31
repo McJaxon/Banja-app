@@ -32,9 +32,9 @@ Future<void> main() async {
   await Future.delayed(const Duration(seconds: 5));
   runApp(
     Phoenix(
-      child: OKToast(
+      child: const OKToast(
         animationCurve: Curves.easeIn,
-        animationDuration: const Duration(milliseconds: 200),
+        animationDuration: Duration(milliseconds: 200),
         child: MyApp(),
       ),
     ),
